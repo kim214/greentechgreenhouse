@@ -1,4 +1,5 @@
 import { Bell, Leaf, Settings, User } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -56,9 +57,11 @@ export const DashboardHeader = ({ alertCount = 0 }: DashboardHeaderProps) => {
             </Button>
 
             {/* Settings */}
-            <Button variant="outline" size="icon" className="transition-smooth">
-              <Settings className="w-4 h-4" />
-            </Button>
+            <Link to="/settings">
+              <Button variant="outline" size="icon" className="transition-smooth">
+                <Settings className="w-4 h-4" />
+              </Button>
+            </Link>
 
             {/* User Menu */}
             <DropdownMenu>
