@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "../hooks/use-toast";
 
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { SensorGrid } from "@/components/dashboard/SensorGrid";
-import { ControlPanel } from "@/components/dashboard/ControlPanel";
-import { CameraMonitoring } from "@/components/dashboard/CameraMonitoring";
-import { AlertCenter } from "@/components/dashboard/AlertCenter";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DashboardHeader } from "../components/dashboard/DashboardHeader";
+import { SensorGrid } from "../components/dashboard/SensorGrid";
+import { ControlPanel } from "../components/dashboard/ControlPanel";
+import { CameraMonitoring } from "../components/dashboard/CameraMonitoring";
+import { AlertCenter } from "../components/dashboard/AlertCenter";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 
 const Index = () => {
   const navigate = useNavigate();
