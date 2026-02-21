@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { SettingsNavigation } from "@/components/settings/SettingsNavigation";
-import { SystemConfiguration } from "@/components/settings/SystemConfiguration";
-import { UserProfile } from "@/components/settings/UserProfile";
-import { DeviceManagement } from "@/components/settings/DeviceManagement";
-import { AutomationRules } from "@/components/settings/AutomationRules";
-import { NotificationSettings } from "@/components/settings/NotificationSettings";
-import { DataSettings } from "@/components/settings/DataSettings";
-import { SecuritySettings } from "@/components/settings/SecuritySettings";
+import { Button } from "react-day-picker";
+import { SettingsNavigation } from "../components/settings/SettingsNavigation";
+import { SystemConfiguration } from "../components/settings/SystemConfiguration";
+import { UserProfile } from "../components/settings/UserProfile";
+import { DeviceManagement } from "../components/settings/DeviceManagement";
+import { AutomationRules } from "../components/settings/AutomationRules";
+import { NotificationSettings } from "../components/settings/NotificationSettings";
+import { DataSettings } from "../components/settings/DataSettings";
+import { SecuritySettings } from "../components/settings/SecuritySettings";
 import { Link } from "react-router-dom";
 
 type SettingsSection = 
@@ -51,7 +51,7 @@ const Settings = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center space-x-4">
             <Link to="/dashboard">
-              <Button variant="ghost" size="sm" className="transition-smooth">
+              <Button className="h-auto px-2">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Dashboard
               </Button>

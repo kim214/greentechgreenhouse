@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Leaf, ChevronRight, ArrowRight, Users } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import heroImg from "@/assets/hero-greenhouse.jpg";
 import irrigationImg from "@/assets/irrigation-system.jpg";
 import ventilationImg from "@/assets/ventilation-system.jpg";
@@ -35,7 +35,7 @@ export default function Landing() {
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4">
           <div className="flex items-center gap-8 rounded-full border border-border/40 bg-background/60 backdrop-blur-xl px-6 py-2.5 shadow-lg">
             <div className="flex items-center gap-2.5">
-              <Leaf className="h-5 w-5 text-primary" />
+              <img src= "/logo.png"  alt="GreenTech Logo" className="h-8 w-8 rounded-lg" />
               <span className="font-display text-sm font-bold tracking-wide text-foreground">
                 GreenTech
               </span>
@@ -360,7 +360,7 @@ export default function Landing() {
       <footer className="border-t border-border/30 py-12">
         <div className="mx-auto max-w-[1400px] px-6 md:px-16 flex flex-col items-center gap-6 md:flex-row md:justify-between">
           <div className="flex items-center gap-2.5">
-            <Leaf size={16} className="text-primary" />
+            <img src= "/logo.png"  alt="GreenTech Logo" className="h-7 w-7 rounded-md" />
             <span className="font-display font-bold text-foreground text-sm">GreenTech</span>
           </div>
           <nav className="flex gap-6 text-sm text-muted-foreground">
