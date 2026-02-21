@@ -50,7 +50,7 @@ const Settings = () => {
       <header className="border-b border-border/50 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center space-x-4">
-            <Link to="/">
+            <Link to="/dashboard">
               <Button variant="ghost" size="sm" className="transition-smooth">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Dashboard

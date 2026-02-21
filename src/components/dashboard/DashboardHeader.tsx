@@ -22,8 +22,12 @@ export const DashboardHeader = ({ alertCount = 0 }: DashboardHeaderProps) => {
         <div className="flex items-center justify-between">
           {/* Logo & Title */}
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-primary">
-              <Leaf className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 rounded-xl overflow-hidden bg-card border border-border flex items-center justify-center shadow-primary">
+              <img 
+                src="/logo.png" 
+                alt="Logo" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-foreground">GreenTech</h1>
@@ -73,11 +77,19 @@ export const DashboardHeader = ({ alertCount = 0 }: DashboardHeaderProps) => {
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => window.location.href = "/auth"}>
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => window.location.href = "/settings"}>
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => window.location.href = "/auth"}>
+                  Support
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Sign out</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => window.location.href = "/"}>
+                  Sign out
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
