@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Leaf, ChevronRight, ArrowRight, Users } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { Button } from "../components/ui/button";
 import heroImg from "@/assets/hero-greenhouse.jpg";
 import irrigationImg from "@/assets/irrigation-system.jpg";
 import ventilationImg from "@/assets/ventilation-system.jpg";
@@ -29,7 +30,7 @@ export default function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen w-full bg-background text-foreground">
       {/* ── NAVBAR ── */}
       <header className="fixed inset-x-0 top-0 z-50">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4">
@@ -41,7 +42,12 @@ export default function Landing() {
               </span>
             </div>
             <nav className="hidden items-center gap-5 md:flex">
-              {["Smart Irrigation", "Ventilation", "Monitoring", "Sentry Hub"].map((item) => (
+              {[
+                "Smart Irrigation",
+                "Ventilation",
+                "Monitoring",
+                "Sentry Hub",
+              ].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
@@ -69,70 +75,28 @@ export default function Landing() {
           alt="Smart greenhouse facility aerial view"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/60 to-transparent" />
+        <div className="absolute inset-0 bg-black/30" />
 
         <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-20 md:px-16 lg:px-24">
-          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-primary font-medium">
-            Our Mission
-          </p>
-          <h1 className="max-w-3xl font-display text-4xl font-bold leading-[1.1] tracking-tight text-foreground md:text-6xl lg:text-7xl">
+          <h1 className="max-w-3xl text-left font-display text-4xl font-bold leading-[1.1] tracking-tight text-background md:text-6xl lg:text-7xl">
             Intelligent greenhouse farming for a sustainable future
           </h1>
-          <p className="mt-6 max-w-xl text-base text-muted-foreground leading-relaxed md:text-lg">
-            Agriculture loses billions annually to inefficient growing. GreenTech gives growers
-            the technological edge needed for precision irrigation, climate control, and real-time monitoring.
+          <p className="mt-6 max-w-xl text-left text-base text-background leading-relaxed md:text-lg">
+            Agriculture loses billions annually to inefficient growing.
+            GreenTech gives growers the technological edge needed for precision
+            irrigation, climate control, and real-time monitoring.
           </p>
-          <a
-            href="#team"
-            className="mt-8 inline-flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors group"
-          >
-            Learn about the team behind this
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </a>
-        </div>
-      </section>
-
-      {/* ── GREENTECH OS SECTION ── */}
-      <section className="relative overflow-hidden border-t border-border/30 py-24 md:py-32">
-        <div className="absolute inset-0 bg-gradient-to-b from-background to-secondary/20" />
-        <div className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-16">
-          <p className="mb-2 text-xs uppercase tracking-[0.3em] text-primary font-medium">
-            GreenTech OS
-          </p>
-          <h2 className="mb-4 font-display text-2xl font-bold text-foreground md:text-4xl">
-            A Strategic Advantage
-          </h2>
-          <p className="max-w-2xl text-muted-foreground leading-relaxed">
-            Our family of systems is powered by GreenTech OS, an AI-powered operating system that
-            brings data intelligence and automation to greenhouse management. GreenTech Cloud
-            helps customers store and analyse sensor data in real-time, while GreenTech Autonomy
-            enables command &amp; control capabilities across all zones.
-          </p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <a
-              href="#smart-irrigation"
-              className="inline-flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors group"
-            >
-              Learn more about GreenTech Autonomy
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="#monitoring"
-              className="inline-flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors group"
-            >
-              Learn more about GreenTech Cloud
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
         </div>
       </section>
 
       {/* ── PRODUCT CARDS ── */}
       {/* Smart Irrigation */}
-      <section id="smart-irrigation" className="border-t border-border/30">
+      <section
+        id="smart-irrigation"
+        className="border-t border-border/30 pt-20"
+      >
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-6 py-16 md:px-16 lg:py-24">
+          <div className="flex flex-col text-left text-left justify-center px-6 py-16 md:px-16 lg:py-24">
             <p className="mb-2 text-xs uppercase tracking-[0.3em] text-primary font-medium">
               Smart Irrigation
             </p>
@@ -140,38 +104,32 @@ export default function Landing() {
               Precision water delivery system
             </h3>
             <p className="max-w-md text-muted-foreground leading-relaxed">
-              Automated drip and spray irrigation with per-zone control, soil-moisture feedback
-              loops, and scheduling intelligence that reduces water waste by up to 40%.
+              Automated drip and spray irrigation with per-zone control,
+              soil-moisture feedback loops, and scheduling intelligence that
+              reduces water waste by up to 40%.
             </p>
-            <button
-              onClick={() => navigate("/auth")}
-              className="mt-8 inline-flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors group w-fit"
-            >
-              Learn More
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
           </div>
           <div className="relative min-h-[400px] lg:min-h-[500px]">
             <img
               src={irrigationImg}
               alt="Smart irrigation system inside greenhouse"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full rounded-[30px] object-cover"
             />
           </div>
         </div>
       </section>
 
       {/* Ventilation */}
-      <section id="ventilation" className="border-t border-border/30">
+      <section id="ventilation" className="border-t border-border/30 pt-20">
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
           <div className="relative min-h-[400px] lg:min-h-[500px] order-2 lg:order-1">
             <img
               src={ventilationImg}
               alt="Ventilation fans inside greenhouse"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full rounded-[30px] object-cover"
             />
           </div>
-          <div className="flex flex-col justify-center px-6 py-16 md:px-16 lg:py-24 order-1 lg:order-2">
+          <div className="flex flex-col text-left justify-center px-6 py-16 md:px-16 lg:py-24 order-1 lg:order-2">
             <p className="mb-2 text-xs uppercase tracking-[0.3em] text-primary font-medium">
               Ventilation Control
             </p>
@@ -179,24 +137,18 @@ export default function Landing() {
               Automated climate management
             </h3>
             <p className="max-w-md text-muted-foreground leading-relaxed">
-              Intelligent fan and vent control maintains ideal airflow, CO₂ levels, and temperature
-              gradients. Automatic mode responds instantly to environmental changes.
+              Intelligent fan and vent control maintains ideal airflow, CO₂
+              levels, and temperature gradients. Automatic mode responds
+              instantly to environmental changes.
             </p>
-            <button
-              onClick={() => navigate("/auth")}
-              className="mt-8 inline-flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors group w-fit"
-            >
-              Learn More
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
           </div>
         </div>
       </section>
 
       {/* Live Monitoring */}
-      <section id="monitoring" className="border-t border-border/30">
+      <section id="monitoring" className="border-t border-border/30 pt-20">
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-6 py-16 md:px-16 lg:py-24">
+          <div className="flex flex-col text-left justify-center px-6 py-16 md:px-16 lg:py-24">
             <p className="mb-2 text-xs uppercase tracking-[0.3em] text-primary font-medium">
               Live Monitoring
             </p>
@@ -204,39 +156,32 @@ export default function Landing() {
               Real-time sensor intelligence
             </h3>
             <p className="max-w-md text-muted-foreground leading-relaxed">
-              12+ environmental data points tracked in real-time — temperature, humidity, CO₂,
-              PAR light, soil moisture, and more — with historical trend analytics and
-              instant anomaly alerts.
+              12+ environmental data points tracked in real-time — temperature,
+              humidity, CO₂, PAR light, soil moisture, and more — with
+              historical trend analytics and instant anomaly alerts.
             </p>
-            <button
-              onClick={() => navigate("/auth")}
-              className="mt-8 inline-flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors group w-fit"
-            >
-              Learn More
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
           </div>
           <div className="relative min-h-[400px] lg:min-h-[500px]">
             <img
               src={monitoringImg}
               alt="Real-time sensor monitoring dashboard inside greenhouse"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full rounded-[30px] object-cover"
             />
           </div>
         </div>
       </section>
 
       {/* Sentry Hub */}
-      <section id="sentry-hub" className="border-t border-border/30">
+      <section id="sentry-hub" className="border-t border-border/30 pt-20">
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
           <div className="relative min-h-[400px] lg:min-h-[500px] order-2 lg:order-1">
             <img
               src={overviewImg}
               alt="Sentry tower overlooking greenhouse complex"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full rounded-[30px] object-cover"
             />
           </div>
-          <div className="flex flex-col justify-center px-6 py-16 md:px-16 lg:py-24 order-1 lg:order-2">
+          <div className="flex flex-col text-left justify-center px-6 py-16 md:px-16 lg:py-24 order-1 lg:order-2">
             <p className="mb-2 text-xs uppercase tracking-[0.3em] text-primary font-medium">
               Sentry Hub
             </p>
@@ -244,23 +189,17 @@ export default function Landing() {
               The future of greenhouse security
             </h3>
             <p className="max-w-md text-muted-foreground leading-relaxed">
-              Powered by solar panels, the GreenTech Sentry Hub autonomously monitors perimeter
-              security, tracks environmental conditions, and provides 24/7 surveillance across
-              your entire greenhouse operation.
+              Powered by solar panels, the GreenTech Sentry Hub autonomously
+              monitors perimeter security, tracks environmental conditions, and
+              provides 24/7 surveillance across your entire greenhouse
+              operation.
             </p>
-            <button
-              onClick={() => navigate("/auth")}
-              className="mt-8 inline-flex items-center gap-3 text-sm text-foreground hover:text-primary transition-colors group w-fit"
-            >
-              Learn More
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
           </div>
         </div>
       </section>
 
-      {/* ── CUSTOMER FEEDBACK ── */}
-      <section className="border-t border-border/30 py-24 md:py-32">
+      {/* ── CUSTOMER FEEDBACK ── 
+      <section className="border-t border-border/30 py-24 md:py-32 pt-20">
         <div className="mx-auto max-w-[1400px] px-6 md:px-16">
           <p className="mb-4 text-xs uppercase tracking-[0.3em] text-primary font-medium">
             Customer Feedback
@@ -278,9 +217,10 @@ export default function Landing() {
           </div>
         </div>
       </section>
+    */}
 
-      {/* ── TEAM ── */}
-      <section id="team" className="border-t border-border/30 py-24 md:py-32">
+      {/* 
+      <section id="team" className="border-t border-border/30 py-24 md:py-32 pt-20">
         <div className="mx-auto max-w-[1400px] px-6 md:px-16">
           <div className="mb-16">
             <p className="mb-2 text-xs uppercase tracking-[0.3em] text-primary font-medium">
@@ -302,7 +242,6 @@ export default function Landing() {
                 key={member.name}
                 className="group overflow-hidden rounded-2xl border border-border/40 bg-secondary/20 transition-all duration-300 hover:border-primary/40"
               >
-                {/* Photo placeholder */}
                 <div className="relative h-72 w-full bg-secondary/60 flex items-center justify-center overflow-hidden">
                   <div className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-primary/40 bg-primary/15 group-hover:border-primary/70 transition-colors">
                     <span className="font-display text-3xl font-bold gradient-text">
@@ -333,6 +272,7 @@ export default function Landing() {
           </div>
         </div>
       </section>
+      */}
 
       {/* ── CTA ── */}
       <section className="border-t border-border/30 py-24 md:py-32">
@@ -351,7 +291,6 @@ export default function Landing() {
             className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full text-base px-10"
           >
             Get Started — It's Free
-            <ChevronRight size={15} />
           </Button>
         </div>
       </section>
@@ -364,8 +303,17 @@ export default function Landing() {
             <span className="font-display font-bold text-foreground text-sm">GreenTech</span>
           </div>
           <nav className="flex gap-6 text-sm text-muted-foreground">
-            {["Smart Irrigation", "Ventilation", "Monitoring", "Sentry Hub"].map((item) => (
-              <a key={item} href={`#${item.toLowerCase().replace(/\s+/g, "-")}`} className="hover:text-foreground transition-colors">
+            {[
+              "Smart Irrigation",
+              "Ventilation",
+              "Monitoring",
+              "Sentry Hub",
+            ].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
+                className="hover:text-foreground transition-colors"
+              >
                 {item}
               </a>
             ))}
