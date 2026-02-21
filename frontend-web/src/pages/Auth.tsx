@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Leaf, Mail, Lock, User, Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, User, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -16,8 +15,6 @@ export default function Auth() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // New state for bottom notification message
   const [bottomMessage, setBottomMessage] = useState("");
 
   const passwordRules = {
@@ -36,17 +33,17 @@ export default function Auth() {
 
     if (mode === "signup") {
       if (!isPasswordValid) {
-        alert("Password does not meet security requirements.");
+        setBottomMessage("Password does not meet requirements.");
         return;
       }
       if (!passwordsMatch) {
-        alert("Passwords do not match.");
+        setBottomMessage("Passwords do not match.");
         return;
       }
     }
 
     setLoading(true);
-    setBottomMessage(""); // clear previous message
+    setBottomMessage("");
 
     try {
       const endpoint =
@@ -71,12 +68,10 @@ export default function Auth() {
         setBottomMessage(data.error);
       } else {
         if (mode === "login") {
-          // Save login status locally
           localStorage.setItem("userLoggedIn", "true");
           localStorage.setItem("fullName", data.fullName || "");
-          navigate("/dashboard"); // redirect to dashboard
+          navigate("/dashboard");
         } else {
-          // Signup successful → show bottom message & switch to login
           setBottomMessage("Signup successful! Please log in.");
           setMode("login");
           setPassword("");
@@ -85,172 +80,114 @@ export default function Auth() {
       }
     } catch (err) {
       console.error(err);
-      setBottomMessage("Server error. Make sure XAMPP is running.");
+      setBottomMessage("Server error. Ensure backend is running.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-background px-4 overflow-hidden">
-      <button
-        onClick={() => navigate("/")}
-        className="absolute left-6 top-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-      >
-        <ArrowLeft size={15} />
-        Back to home
-      </button>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-100 to-green-200 px-4">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+        {/* Logo & Title */}
+        <div className="text-center mb-6">
+          <img src="/logo.png" alt="Greenhouse Logo" className="mx-auto h-14 w-14" />
+          <h2 className="mt-4 text-xl font-bold text-green-700">Greenhouse</h2>
+          <p className="text-sm text-gray-500">Smart Farming for a Sustainable Future</p>
+        </div>
 
-      <div className="relative w-full max-w-md">
-        <div className="rounded-2xl p-8 shadow-[0_0_60px_hsl(152_72%_40%/0.12)] border border-border bg-card">
-           {/* Logo & Title */}
-          <div className="mb-8 flex flex-col items-center gap-3">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/20 border border-primary/30">
-              <img 
-                src="/logo.png" 
-                alt="Logo" 
-                className="w-full h-full object-cover"
-              
-              />
-            </div>
-            <div>
-            
-              <p className="text-sm text-muted-foreground">Smart Farming For a Sustainable Future</p>
-            </div>
-          </div>
-          {/* Mode toggle */}
-          <div className="mb-6 flex rounded-xl border border-border bg-secondary/40 p-1">
-            {(["login", "signup"] as const).map((m) => (
-              <button
-                key={m}
-                onClick={() => setMode(m)}
-                className={cn(
-                  "flex-1 rounded-lg py-2 text-sm font-medium transition-all capitalize",
-                  mode === m
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {m === "login" ? "Log In" : "Sign Up"}
-              </button>
-            ))}
+        {/* Mode toggle */}
+        <div className="mb-6 flex rounded-xl border bg-gray-100 p-1">
+          {(["login", "signup"] as const).map((m) => (
+            <button
+              key={m}
+              onClick={() => setMode(m)}
+              className={`flex-1 rounded-lg py-2 text-sm font-medium capitalize transition-all ${
+                mode === m ? "bg-green-600 text-white" : "text-gray-600 hover:text-green-600"
+              }`}
+            >
+              {m === "login" ? "Log In" : "Sign Up"}
+            </button>
+          ))}
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {mode === "signup" && (
+            <Input
+              placeholder="Full name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+            />
+          )}
+
+          <Input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <div className="relative">
+            <Input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+            >
+              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+            </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {mode === "signup" && (
+          {mode === "signup" && (
+            <>
+              <div className="text-xs text-gray-500 space-y-1">
+                <p className={passwordRules.length ? "text-green-600" : ""}>• 8+ characters</p>
+                <p className={passwordRules.uppercase ? "text-green-600" : ""}>• Uppercase letter</p>
+                <p className={passwordRules.lowercase ? "text-green-600" : ""}>• Lowercase letter</p>
+                <p className={passwordRules.number ? "text-green-600" : ""}>• Number</p>
+                <p className={passwordRules.special ? "text-green-600" : ""}>• Special character</p>
+              </div>
+
               <div className="relative">
-                <User
-                  size={16}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                />
                 <Input
-                  placeholder="Full name"
-                  className="pl-9"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                >
+                  {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
               </div>
-            )}
-
-            <div className="relative">
-              <Mail
-                size={16}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-              />
-              <Input
-                type="email"
-                placeholder="Email address"
-                className="pl-9"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="relative">
-              <Lock
-                size={16}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-              />
-              <Input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="pl-9 pr-10"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-              >
-                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
-              </button>
-            </div>
-
-            {mode === "signup" && (
-              <>
-                <div className="text-xs space-y-1 text-muted-foreground">
-                  <p className={passwordRules.length ? "text-green-500" : ""}>
-                    • At least 8 characters
-                  </p>
-                  <p className={passwordRules.uppercase ? "text-green-500" : ""}>
-                    • At least 1 uppercase letter
-                  </p>
-                  <p className={passwordRules.lowercase ? "text-green-500" : ""}>
-                    • At least 1 lowercase letter
-                  </p>
-                  <p className={passwordRules.number ? "text-green-500" : ""}>
-                    • At least 1 number
-                  </p>
-                  <p className={passwordRules.special ? "text-green-500" : ""}>
-                    • At least 1 special character
-                  </p>
-                </div>
-
-                <div className="relative">
-                  <Lock
-                    size={16}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                  />
-                  <Input
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="pl-9 pr-10"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                  >
-                    {showConfirmPassword ? <EyeOff size={15} /> : <Eye size={15} />}
-                  </button>
-                </div>
-
-                {confirmPassword && !passwordsMatch && (
-                  <p className="text-xs text-red-500">Passwords do not match.</p>
-                )}
-              </>
-            )}
-
-            <Button type="submit" className="w-full gap-2" disabled={loading}>
-              <Leaf size={16} />
-              {mode === "login" ? "Log In to Dashboard" : "Create Account"}
-            </Button>
-          </form>
-
-          {/* Bottom notification message */}
-          {bottomMessage && (
-            <div className="mt-4 text-center text-sm text-green-600 border-t border-border pt-2 animate-fadeIn">
-              {bottomMessage}
-            </div>
+            </>
           )}
-        </div>
+
+          <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={loading}>
+            <Leaf size={16} className="mr-2" />
+            {mode === "login" ? "Log In" : "Create Account"}
+          </Button>
+        </form>
+
+        {/* Bottom message */}
+        {bottomMessage && (
+          <div className="mt-4 text-center text-sm text-green-600 border-t pt-2">
+            {bottomMessage}
+          </div>
+        )}
       </div>
     </div>
   );
