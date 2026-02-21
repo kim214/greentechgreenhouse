@@ -1,16 +1,30 @@
 {
-  "files": [],
-  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "noImplicitAny": false,
-    "noUnusedParameters": false,
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
     "skipLibCheck": true,
-    "allowJs": true,
+
+    /* Fixes the 'react/jsx-runtime' error */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Sprint-Friendly Strictness */
+    "strict": true,
     "noUnusedLocals": false,
-    "strictNullChecks": false
-  }
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Support for IoT Data Handling */
+    "esModuleInterop": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleDetection": "force"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
