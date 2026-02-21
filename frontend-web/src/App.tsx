@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import "/tAhIni-logo.png";
 import "./App.css";
 
 const App = () => {
