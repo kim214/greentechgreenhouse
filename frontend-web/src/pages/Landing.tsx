@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Leaf, ChevronRight, ArrowRight, Users } from "lucide-react";
 import { Button } from "../components/ui/button";
-import { Button } from "../components/ui/button";
 import heroImg from "@/assets/hero-greenhouse.jpg";
 import irrigationImg from "@/assets/irrigation-system.jpg";
 import ventilationImg from "@/assets/ventilation-system.jpg";
@@ -59,7 +58,7 @@ export default function Landing() {
             </nav>
           </div>
           <Button
-            onClick={() => navigate("/auth")}
+            onClick={() => navigate("/login")}
             variant="outline"
             className="rounded-full border-border/50 bg-background/60 backdrop-blur-xl text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
           >

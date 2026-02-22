@@ -92,7 +92,7 @@ export default function Auth() {
         {/* Logo & Title */}
         <div className="text-center mb-6">
           <img src="/logo.png" alt="Greenhouse Logo" className="mx-auto h-14 w-14" />
-          <h2 className="mt-4 text-xl font-bold text-green-700">Greenhouse</h2>
+          <h2 className="mt-4 text-xl font-bold text-green-700">GreenTech</h2>
           <p className="text-sm text-gray-500">Smart Farming for a Sustainable Future</p>
         </div>
 
