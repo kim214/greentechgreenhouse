@@ -1,12 +1,12 @@
 import { useMemo, useEffect, useState, useRef } from "react";
-import { useMqtt } from "@/hooks/useMqtt";
-import { useAnalyticsHistory } from "@/hooks/useAnalyticsHistory";
-import { computeAnalytics } from "@/lib/analyticsEngine";
-import { fetchAIInsights, isAIConfigured, type AIInsight } from "@/lib/aiInsights";
-import { getUserId, saveAnalytics } from "@/lib/api";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { useMqtt } from "../../hooks/useMqtt";
+import { useAnalyticsHistory } from "../../hooks/useAnalyticsHistory";
+import { computeAnalytics } from "../../lib/analyticsEngine";
+import { fetchAIInsights, isAIConfigured, type AIInsight } from "../../lib/aiInsights";
+import { getUserId, saveAnalytics } from "../../lib/api";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
 import {
   Leaf,
   Droplets,

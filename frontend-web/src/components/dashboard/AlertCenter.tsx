@@ -1,19 +1,19 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { AlertTriangle, CheckCircle, Clock, X, Bell, BellOff } from "lucide-react";
-import { useMqtt } from "@/hooks/useMqtt";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { useMqtt } from "../../hooks/useMqtt";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
+import { Switch } from "../../components/ui/switch";
+import { Label } from "../../components/ui/label";
+import { useToast } from "../../hooks/use-toast";
 import {
   getUserId,
   fetchAlerts,
   createAlert,
   updateAlert,
   type AlertRecord,
-} from "@/lib/api";
+} from "../../lib/api";
 
 type AlertSeverity = "low" | "medium" | "high" | "critical";
 type AlertCategory =

@@ -1,4 +1,6 @@
-import { cn } from "@/lib/utils";
+
+
+import { cn } from "../../lib/utils";
 import { ImageIcon, Video } from "lucide-react";
 
 interface MediaSectionProps {

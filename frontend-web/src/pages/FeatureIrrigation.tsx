@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Droplets, CheckCircle2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { FeatureLayout } from "@/components/feature/FeatureLayout";
-import { MediaSection } from "@/components/feature/MediaSection";
+import { Button } from "../components/ui/button";
+import { FeatureLayout } from "../components/feature/FeatureLayout";
+import {MediaSection} from "../components/feature/MediaSection";
 import irrigationImg from "@/assets/irrigation-system.jpg";
 
 const benefits = [
