@@ -1,0 +1,361 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<!-- suppress ALL -->
+3<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+4    package="com.example.greentechlogin"
+5    android:versionCode="1"
+6    android:versionName="1.0" >
+7
+8    <uses-sdk
+9        android:minSdkVersion="24"
+10        android:targetSdkVersion="35" />
+11
+12    <!-- Permissions -->
+13    <uses-permission android:name="android.permission.WAKE_LOCK" />
+13-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:7:5-68
+13-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:7:22-65
+14    <uses-permission android:name="android.permission.INTERNET" /> <!-- MQTT requires internet access -->
+14-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:8:5-67
+14-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:8:22-64
+15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+15-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:9:5-79
+15-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:9:22-76
+16    <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- suppress DeprecatedClassUsageInspection -->
+16-->[androidx.biometric:biometric:1.1.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\224dff8262101470988fd170b5fb727d\transformed\biometric-1.1.0\AndroidManifest.xml:24:5-72
+16-->[androidx.biometric:biometric:1.1.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\224dff8262101470988fd170b5fb727d\transformed\biometric-1.1.0\AndroidManifest.xml:24:22-69
+17    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+17-->[androidx.biometric:biometric:1.1.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\224dff8262101470988fd170b5fb727d\transformed\biometric-1.1.0\AndroidManifest.xml:27:5-74
+17-->[androidx.biometric:biometric:1.1.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\224dff8262101470988fd170b5fb727d\transformed\biometric-1.1.0\AndroidManifest.xml:27:22-71
+18
+19    <permission
+19-->[androidx.core:core:1.16.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\45bd03d902d02866ef06af181049f90e\transformed\core-1.16.0\AndroidManifest.xml:22:5-24:47
+20        android:name="com.example.greentechlogin.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+20-->[androidx.core:core:1.16.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\45bd03d902d02866ef06af181049f90e\transformed\core-1.16.0\AndroidManifest.xml:23:9-81
+21        android:protectionLevel="signature" />
+21-->[androidx.core:core:1.16.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\45bd03d902d02866ef06af181049f90e\transformed\core-1.16.0\AndroidManifest.xml:24:9-44
+22
+23    <uses-permission android:name="com.example.greentechlogin.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" /> <!-- For connectivity state -->
+23-->[androidx.core:core:1.16.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\45bd03d902d02866ef06af181049f90e\transformed\core-1.16.0\AndroidManifest.xml:26:5-97
+23-->[androidx.core:core:1.16.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\45bd03d902d02866ef06af181049f90e\transformed\core-1.16.0\AndroidManifest.xml:26:22-94
+24    <application
+24-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:11:5-91:19
+25        android:allowBackup="true"
+25-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:12:9-35
+26        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+26-->[androidx.core:core:1.16.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\45bd03d902d02866ef06af181049f90e\transformed\core-1.16.0\AndroidManifest.xml:28:18-86
+27        android:dataExtractionRules="@xml/data_extraction_rules"
+27-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:14:9-65
+28        android:debuggable="true"
+29        android:extractNativeLibs="false"
+30        android:fullBackupContent="@xml/backup_rules"
+30-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:15:9-54
+31        android:icon="@mipmap/ic_launcher_foreground"
+31-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:16:9-54
+32        android:label="@string/app_name"
+32-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:17:9-41
+33        android:networkSecurityConfig="@xml/network_security_config"
+33-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:13:9-69
+34        android:roundIcon="@mipmap/ic_launcher_round"
+34-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:18:9-54
+35        android:supportsRtl="true"
+35-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:19:9-35
+36        android:testOnly="true"
+37        android:theme="@style/Theme.GreenTechLogin" >
+37-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:20:9-52
+38
+39        <!-- ✅ MQTT Service -->
+40        <service android:name="org.eclipse.paho.android.service.MqttService" />
+40-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:24:9-80
+40-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:24:18-77
+41
+42        <!-- ✅ SplashActivity (now the launcher screen) -->
+43        <activity
+43-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:27:9-35:20
+44            android:name="com.example.greentechlogin.SplashActivity"
+44-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:28:13-43
+45            android:exported="true"
+45-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:29:13-36
+46            android:theme="@style/Theme.GreenTechLogin.Splash" >
+46-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:30:13-63
+47            <intent-filter>
+47-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:31:13-34:29
+48                <action android:name="android.intent.action.MAIN" />
+48-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:32:17-69
+48-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:32:25-66
+49
+50                <category android:name="android.intent.category.LAUNCHER" />
+50-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:33:17-77
+50-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:33:27-74
+51            </intent-filter>
+52        </activity>
+53
+54        <!-- ✅ Welcome screen after splash -->
+55        <activity
+55-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:38:9-41:59
+56            android:name="com.example.greentechlogin.WelcomeActivity"
+56-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:39:13-44
+57            android:exported="true"
+57-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:40:13-36
+58            android:theme="@style/Theme.GreenTechLogin" />
+58-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:41:13-56
+59
+60        <!-- ✅ MainActivity for login (supports deep link greentech://login) -->
+61        <activity
+61-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:44:9-56:20
+62            android:name="com.example.greentechlogin.MainActivity"
+62-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:45:13-41
+63            android:exported="true"
+63-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:46:13-36
+64            android:theme="@style/Theme.GreenTechLogin" >
+64-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:47:13-56
+65            <intent-filter>
+65-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:48:13-55:29
+66                <action android:name="android.intent.action.VIEW" />
+66-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:49:17-69
+66-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:49:25-66
+67
+68                <category android:name="android.intent.category.DEFAULT" />
+68-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:50:17-76
+68-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:50:27-73
+69                <category android:name="android.intent.category.BROWSABLE" />
+69-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:51:17-78
+69-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:51:27-75
+70
+71                <data
+71-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:52:17-54:44
+72                    android:host="login"
+72-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:54:21-41
+73                    android:scheme="greentech" />
+73-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:53:21-47
+74            </intent-filter>
+75        </activity>
+76
+77        <!-- ✅ Signup Activity -->
+78        <activity
+78-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:59:9-62:59
+79            android:name="com.example.greentechlogin.SignupActivity"
+79-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:60:13-43
+80            android:label="@string/signup_label"
+80-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:61:13-49
+81            android:theme="@style/Theme.GreenTechLogin" />
+81-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:62:13-56
+82
+83        <!-- ✅ Dashboard Activity -->
+84        <activity
+84-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:65:9-68:59
+85            android:name="com.example.greentechlogin.DashboardActivity"
+85-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:66:13-46
+86            android:label="@string/dashboard_label"
+86-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:67:13-52
+87            android:theme="@style/Theme.GreenTechLogin" />
+87-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:68:13-56
+88
+89        <!-- ✅ Password Reset (via Supabase link) -->
+90        <activity
+90-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:71:9-83:20
+91            android:name="com.example.greentechlogin.ResetPasswordActivity"
+91-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:72:13-50
+92            android:exported="true" >
+92-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:73:13-36
+93            <intent-filter android:autoVerify="true" >
+93-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:74:13-82:29
+93-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:74:28-53
+94                <action android:name="android.intent.action.VIEW" />
+94-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:49:17-69
+94-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:49:25-66
+95
+96                <category android:name="android.intent.category.DEFAULT" />
+96-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:50:17-76
+96-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:50:27-73
+97                <category android:name="android.intent.category.BROWSABLE" />
+97-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:51:17-78
+97-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:51:27-75
+98
+99                <data
+99-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:52:17-54:44
+100                    android:host="czihzgyafnlshmubljch.supabase.co"
+100-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:54:21-41
+101                    android:pathPrefix="/reset-password"
+101-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:81:21-57
+102                    android:scheme="https" />
+102-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:53:21-47
+103            </intent-filter>
+104        </activity>
+105
+106        <!-- ✅ LocalBroadcastManager Receiver -->
+107        <receiver
+107-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:86:9-89:40
+108            android:name="android.support.v4.content.LocalBroadcastManager$Receiver"
+108-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:87:13-85
+109            android:enabled="true"
+109-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:88:13-35
+110            android:exported="false" />
+110-->C:\Users\HP\Desktop\GreenTechLogin\app\src\main\AndroidManifest.xml:89:13-37
+111
+112        <service
+112-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:24:9-32:19
+113            android:name="androidx.credentials.playservices.CredentialProviderMetadataHolder"
+113-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:25:13-94
+114            android:enabled="true"
+114-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:26:13-35
+115            android:exported="false" >
+115-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:27:13-37
+116            <meta-data
+116-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:29:13-31:104
+117                android:name="androidx.credentials.CREDENTIAL_PROVIDER_KEY"
+117-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:30:17-76
+118                android:value="androidx.credentials.playservices.CredentialProviderPlayServicesImpl" />
+118-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:31:17-101
+119        </service>
+120
+121        <activity
+121-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:34:9-41:20
+122            android:name="androidx.credentials.playservices.HiddenActivity"
+122-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:35:13-76
+123            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+123-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:36:13-87
+124            android:enabled="true"
+124-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:37:13-35
+125            android:exported="false"
+125-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:38:13-37
+126            android:fitsSystemWindows="true"
+126-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:39:13-45
+127            android:theme="@style/Theme.Hidden" >
+127-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:40:13-48
+128        </activity>
+129        <activity
+129-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:42:9-49:20
+130            android:name="androidx.credentials.playservices.IdentityCredentialApiHiddenActivity"
+130-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:43:13-97
+131            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+131-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:44:13-87
+132            android:enabled="true"
+132-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:45:13-35
+133            android:exported="false"
+133-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:46:13-37
+134            android:fitsSystemWindows="true"
+134-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:47:13-45
+135            android:theme="@style/Theme.Hidden" >
+135-->[androidx.credentials:credentials-play-services-auth:1.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\6dd02f40019dcc08e53c3d070decc7b4\transformed\jetified-credentials-play-services-auth-1.5.0\AndroidManifest.xml:48:13-48
+136        </activity>
+137        <activity
+137-->[com.google.android.gms:play-services-auth:21.1.1] C:\Users\HP\.gradle\caches\8.11.1\transforms\66f4e44cc9d0a730b374cdefee14a069\transformed\jetified-play-services-auth-21.1.1\AndroidManifest.xml:23:9-27:75
+138            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+138-->[com.google.android.gms:play-services-auth:21.1.1] C:\Users\HP\.gradle\caches\8.11.1\transforms\66f4e44cc9d0a730b374cdefee14a069\transformed\jetified-play-services-auth-21.1.1\AndroidManifest.xml:24:13-93
+139            android:excludeFromRecents="true"
+139-->[com.google.android.gms:play-services-auth:21.1.1] C:\Users\HP\.gradle\caches\8.11.1\transforms\66f4e44cc9d0a730b374cdefee14a069\transformed\jetified-play-services-auth-21.1.1\AndroidManifest.xml:25:13-46
+140            android:exported="false"
+140-->[com.google.android.gms:play-services-auth:21.1.1] C:\Users\HP\.gradle\caches\8.11.1\transforms\66f4e44cc9d0a730b374cdefee14a069\transformed\jetified-play-services-auth-21.1.1\AndroidManifest.xml:26:13-37
+141            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+141-->[com.google.android.gms:play-services-auth:21.1.1] C:\Users\HP\.gradle\caches\8.11.1\transforms\66f4e44cc9d0a730b374cdefee14a069\transformed\jetified-play-services-auth-21.1.1\AndroidManifest.xml:27:13-72
+142        <!--
+143            Service handling Google Sign-In user revocation. For apps that do not integrate with
+144            Google Sign-In, this service will never be started.
+145        -->
+146        <service
+146-->[com.google.android.gms:play-services-auth:21.1.1] C:\Users\HP\.gradle\caches\8.11.1\transforms\66f4e44cc9d0a730b374cdefee14a069\transformed\jetified-play-services-auth-21.1.1\AndroidManifest.xml:33:9-37:51
+147            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+147-->[com.google.android.gms:play-services-auth:21.1.1] C:\Users\HP\.gradle\caches\8.11.1\transforms\66f4e44cc9d0a730b374cdefee14a069\transformed\jetified-play-services-auth-21.1.1\AndroidManifest.xml:34:13-89
+148            android:exported="true"
+148-->[com.google.android.gms:play-services-auth:21.1.1] C:\Users\HP\.gradle\caches\8.11.1\transforms\66f4e44cc9d0a730b374cdefee14a069\transformed\jetified-play-services-auth-21.1.1\AndroidManifest.xml:35:13-36
+149            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+149-->[com.google.android.gms:play-services-auth:21.1.1] C:\Users\HP\.gradle\caches\8.11.1\transforms\66f4e44cc9d0a730b374cdefee14a069\transformed\jetified-play-services-auth-21.1.1\AndroidManifest.xml:36:13-107
+150            android:visibleToInstantApps="true" />
+150-->[com.google.android.gms:play-services-auth:21.1.1] C:\Users\HP\.gradle\caches\8.11.1\transforms\66f4e44cc9d0a730b374cdefee14a069\transformed\jetified-play-services-auth-21.1.1\AndroidManifest.xml:37:13-48
+151
+152        <activity
+152-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\bee3c6de355eab732834b7ed1b17a7bd\transformed\jetified-play-services-base-18.5.0\AndroidManifest.xml:5:9-173
+153            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+153-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\bee3c6de355eab732834b7ed1b17a7bd\transformed\jetified-play-services-base-18.5.0\AndroidManifest.xml:5:19-85
+154            android:exported="false"
+154-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\bee3c6de355eab732834b7ed1b17a7bd\transformed\jetified-play-services-base-18.5.0\AndroidManifest.xml:5:146-170
+155            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+155-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\bee3c6de355eab732834b7ed1b17a7bd\transformed\jetified-play-services-base-18.5.0\AndroidManifest.xml:5:86-145
+156
+157        <meta-data
+157-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\d98a6aa229f84401c5f0196142ba160e\transformed\jetified-play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
+158            android:name="com.google.android.gms.version"
+158-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\d98a6aa229f84401c5f0196142ba160e\transformed\jetified-play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
+159            android:value="@integer/google_play_services_version" />
+159-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\d98a6aa229f84401c5f0196142ba160e\transformed\jetified-play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
+160
+161        <activity
+161-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\b5667bdc55dc5661b2e6749135c0edb4\transformed\jetified-ui-tooling-release\AndroidManifest.xml:23:9-25:39
+162            android:name="androidx.compose.ui.tooling.PreviewActivity"
+162-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\b5667bdc55dc5661b2e6749135c0edb4\transformed\jetified-ui-tooling-release\AndroidManifest.xml:24:13-71
+163            android:exported="true" />
+163-->[androidx.compose.ui:ui-tooling-android:1.7.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\b5667bdc55dc5661b2e6749135c0edb4\transformed\jetified-ui-tooling-release\AndroidManifest.xml:25:13-36
+164        <activity
+164-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c126cecc89219e7138f6b405f543bcf3\transformed\jetified-ui-test-manifest-1.7.0\AndroidManifest.xml:23:9-25:39
+165            android:name="androidx.activity.ComponentActivity"
+165-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c126cecc89219e7138f6b405f543bcf3\transformed\jetified-ui-test-manifest-1.7.0\AndroidManifest.xml:24:13-63
+166            android:exported="true" />
+166-->[androidx.compose.ui:ui-test-manifest:1.7.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c126cecc89219e7138f6b405f543bcf3\transformed\jetified-ui-test-manifest-1.7.0\AndroidManifest.xml:25:13-36
+167
+168        <provider
+168-->[androidx.emoji2:emoji2:1.3.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\edbba498324257a03a2052f418e6b34c\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+169            android:name="androidx.startup.InitializationProvider"
+169-->[androidx.emoji2:emoji2:1.3.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\edbba498324257a03a2052f418e6b34c\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:25:13-67
+170            android:authorities="com.example.greentechlogin.androidx-startup"
+170-->[androidx.emoji2:emoji2:1.3.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\edbba498324257a03a2052f418e6b34c\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:26:13-68
+171            android:exported="false" >
+171-->[androidx.emoji2:emoji2:1.3.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\edbba498324257a03a2052f418e6b34c\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:27:13-37
+172            <meta-data
+172-->[androidx.emoji2:emoji2:1.3.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\edbba498324257a03a2052f418e6b34c\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+173                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+173-->[androidx.emoji2:emoji2:1.3.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\edbba498324257a03a2052f418e6b34c\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:30:17-75
+174                android:value="androidx.startup" />
+174-->[androidx.emoji2:emoji2:1.3.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\edbba498324257a03a2052f418e6b34c\transformed\jetified-emoji2-1.3.0\AndroidManifest.xml:31:17-49
+175            <meta-data
+175-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\HP\.gradle\caches\8.11.1\transforms\5b6c5be42dd3cfd9dd032762174feca6\transformed\jetified-lifecycle-process-2.8.7\AndroidManifest.xml:29:13-31:52
+176                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+176-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\HP\.gradle\caches\8.11.1\transforms\5b6c5be42dd3cfd9dd032762174feca6\transformed\jetified-lifecycle-process-2.8.7\AndroidManifest.xml:30:17-78
+177                android:value="androidx.startup" />
+177-->[androidx.lifecycle:lifecycle-process:2.8.7] C:\Users\HP\.gradle\caches\8.11.1\transforms\5b6c5be42dd3cfd9dd032762174feca6\transformed\jetified-lifecycle-process-2.8.7\AndroidManifest.xml:31:17-49
+178            <meta-data
+178-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+179                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+179-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+180                android:value="androidx.startup" />
+180-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+181        </provider>
+182
+183        <receiver
+183-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+184            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+184-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+185            android:directBootAware="false"
+185-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+186            android:enabled="true"
+186-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+187            android:exported="true"
+187-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+188            android:permission="android.permission.DUMP" >
+188-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+189            <intent-filter>
+189-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+190                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+190-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+190-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+191            </intent-filter>
+192            <intent-filter>
+192-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+193                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+193-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+193-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+194            </intent-filter>
+195            <intent-filter>
+195-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+196                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+196-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+196-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+197            </intent-filter>
+198            <intent-filter>
+198-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+199                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+199-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+199-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\8.11.1\transforms\c5e0341ec17cb356f585cce5e326c4b4\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+200            </intent-filter>
+201        </receiver>
+202    </application>
+203
+204</manifest>

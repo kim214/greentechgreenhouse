@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Background Image -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dashboard_bg"
+        android:contentDescription="Dashboard Background"
+        android:alpha="1" />
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🌱 GreenTech Dashboard"
+                android:textSize="28sp"
+                android:textColor="#090909"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Subtitle -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Smart Farming for a Sustainable Future"
+                android:textSize="16sp"
+                android:textColor="#040404"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Section Tabs -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:weightSum="3"
+                android:layout_marginBottom="20dp">
+
+                <Button
+                    android:id="@+id/btnLiveMonitoring"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Live Monitoring"
+                    android:backgroundTint="#A5D6A7"
+                    android:textColor="#1B5E20"
+                    android:layout_marginEnd="6dp" />
+
+                <Button
+                    android:id="@+id/btnIrrigation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Irrigation"
+                    android:backgroundTint="#AED581"
+                    android:textColor="#33691E"
+                    android:layout_marginHorizontal="6dp" />
+
+                <Button
+                    android:id="@+id/btnVentilation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ventilation"
+                    android:backgroundTint="#FFF176"
+                    android:textColor="#827717"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
+
+            <!-- Live Monitoring Section -->
+            <LinearLayout
+                android:id="@+id/liveMonitoringSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:padding="16dp"
+                android:background="@drawable/card_background_lightgreen"
+                android:layout_marginBottom="16dp"
+                android:elevation="2dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Live Sensor Readings"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#33691E"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/Temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🌡 Temperature: -- °C"
+                    android:textSize="16sp"
+                    android:textColor="#FF7043"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/SoilMoisture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💧 Soil Moisture: -- %"
+                    android:textSize="16sp"
+                    android:textColor="#039BE5"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/Humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💦 Humidity: -- %"
+                    android:textSize="16sp"
+                    android:textColor="#7E57C2" />
+            </LinearLayout>
+
+
+            <!-- System Mode -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/card_background_lightgreen"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="System Mode"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#33691E"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/modeStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Current Mode: AUTO"
+                    android:textSize="16sp"
+                    android:textColor="#388E3C"
+                    android:layout_marginBottom="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnAutoMode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="AUTO Mode"
+                        android:backgroundTint="#66BB6A"
+                        android:textColor="#FFFFFF" />
+
+                    <Button
+                        android:id="@+id/btnManualMode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="MANUAL Mode"
+                        android:backgroundTint="#EF5350"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Irrigation Controls -->
+            <LinearLayout
+                android:id="@+id/irrigationControls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:padding="16dp"
+                android:background="@drawable/card_background_lightgreen"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/irrigationStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Irrigation Status: OFF"
+                    android:textSize="16sp"
+                    android:textColor="#558B2F"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/autoIrrigationStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Auto-Irrigation: OFF"
+                    android:textColor="#D32F2F"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="16dp" />
+
+                <Button
+                    android:id="@+id/startIrrigationButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Start Irrigation"
+                    android:backgroundTint="#66BB6A"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/stopIrrigationButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Stop Irrigation"
+                    android:backgroundTint="#EF5350"
+                    android:textColor="#FFFFFF"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Ventilation Controls -->
+            <LinearLayout
+                android:id="@+id/ventilationControls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:padding="16dp"
+                android:background="@drawable/card_background_lightgreen"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/ventilationStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ventilation Status: OFF"
+                    android:textSize="16sp"
+                    android:textColor="#558B2F"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/autoVentilationStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Auto-Ventilation: OFF"
+                    android:textColor="#D32F2F"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="16dp" />
+
+                <Button
+                    android:id="@+id/openVentilationButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open Fan"
+                    android:backgroundTint="#66BB6A"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/closeVentilationButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Close Fan"
+                    android:backgroundTint="#EF5350"
+                    android:textColor="#FFFFFF"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Logout -->
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="#FFEB3B"
+                android:text="Logout"
+                android:textColor="#212121" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

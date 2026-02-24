@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_live_monitoring"
+        android:icon="@drawable/ic_live_monitoring"
+        android:title="Monitoring" />
+
+    <item
+        android:id="@+id/nav_control"
+        android:icon="@drawable/ic_control"
+        android:title="Control" />
+
+    <item
+        android:id="@+id/nav_pests"
+        android:icon="@drawable/ic_pests"
+        android:title="Pests" />
+
+    <item
+        android:id="@+id/nav_notifications"
+        android:icon="@drawable/ic_notifications"
+        android:title="Alerts" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings" />
+
+</menu>
