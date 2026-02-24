@@ -67,14 +67,31 @@ export default function FeatureMonitoring() {
         title="Gallery"
         description="Our monitoring sensors and dashboard in action."
         variant="images"
-      />
-
-      {/* Videos */}
-      <MediaSection
-        title="Related videos"
-        description="Learn how growers use real-time data to boost yields."
-        variant="videos"
-      />
+      >
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/3735431/pexels-photo-3735431.jpeg"
+              alt="Grower checking greenhouse metrics on a tablet dashboard"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/3735530/pexels-photo-3735530.jpeg"
+              alt="Environmental sensors deployed between greenhouse rows"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/3735112/pexels-photo-3735112.jpeg"
+              alt="Close-up of IoT sensor hardware monitoring plant conditions"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+        </div>
+      </MediaSection>
 
       {/* CTA */}
       <section className="border-t border-border/40 bg-gradient-to-b from-muted/20 to-background py-24 md:py-32">

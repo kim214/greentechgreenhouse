@@ -66,14 +66,31 @@ export default function FeatureSentry() {
         title="Gallery"
         description="Sentry Hub installations and surveillance solutions."
         variant="images"
-      />
-
-      {/* Videos */}
-      <MediaSection
-        title="Related videos"
-        description="See how Sentry Hub keeps greenhouses secure and monitored."
-        variant="videos"
-      />
+      >
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/3806335/pexels-photo-3806335.jpeg"
+              alt="Security camera monitoring greenhouse perimeter"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/9197348/pexels-photo-9197348.jpeg"
+              alt="Solar-powered equipment housing for remote monitoring"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/9197345/pexels-photo-9197345.jpeg"
+              alt="Control center viewing live feeds and alerts from Sentry Hub"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+        </div>
+      </MediaSection>
 
       {/* CTA */}
       <section className="border-t border-border/40 bg-gradient-to-b from-muted/20 to-background py-24 md:py-32">

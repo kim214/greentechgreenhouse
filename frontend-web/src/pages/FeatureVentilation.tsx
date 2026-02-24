@@ -67,14 +67,31 @@ export default function FeatureVentilation() {
         title="Gallery"
         description="Explore our ventilation systems and climate control solutions."
         variant="images"
-      />
-
-      {/* Videos */}
-      <MediaSection
-        title="Related videos"
-        description="See how growers are achieving perfect climate control with GreenTech."
-        variant="videos"
-      />
+      >
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/3735352/pexels-photo-3735352.jpeg"
+              alt="Greenhouse roof vents providing natural airflow"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/4046718/pexels-photo-4046718.jpeg"
+              alt="Industrial fans circulating air through a greenhouse corridor"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/7932259/pexels-photo-7932259.jpeg"
+              alt="Automated ventilation integrated with climate sensors"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+        </div>
+      </MediaSection>
 
       {/* CTA */}
       <section className="border-t border-border/40 bg-gradient-to-b from-muted/20 to-background py-24 md:py-32">

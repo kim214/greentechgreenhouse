@@ -67,14 +67,31 @@ export default function FeatureIrrigation() {
         title="Gallery"
         description="See our smart irrigation systems in action."
         variant="images"
-      />
-
-      {/* Videos */}
-      <MediaSection
-        title="Related videos"
-        description="Watch how growers are transforming their operations with GreenTech irrigation."
-        variant="videos"
-      />
+      >
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/167521/pexels-photo-167521.jpeg"
+              alt="Drip irrigation lines delivering precise water to plants"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/803897/pexels-photo-803897.jpeg"
+              alt="Overhead spray irrigation inside a greenhouse"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+          <div className="overflow-hidden rounded-2xl border bg-muted/30">
+            <img
+              src="https://images.pexels.com/photos/1301856/pexels-photo-1301856.jpeg"
+              alt="Soil moisture sensors monitoring irrigation performance"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </div>
+        </div>
+      </MediaSection>
 
       {/* CTA */}
       <section className="border-t border-border/40 bg-gradient-to-b from-muted/20 to-background py-24 md:py-32">
