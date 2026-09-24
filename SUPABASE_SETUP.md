@@ -9,7 +9,7 @@ Follow these steps to configure Supabase for effective login, signup, and data s
 1. Go to [supabase.com](https://supabase.com) and sign in.
 2. Click **New project**.
 3. Choose organization, name, password (for the DB), and region.
-4. Wait for the project to be created.
+4. Wait for the project to be createdd.
 
 ---
 
