@@ -17,7 +17,8 @@ const MAX_LIVE_POINTS = 40; // ~10 min of live data
 
 export function useAnalyticsHistory(
   liveData: { temp: number; humidity: number; soilMoisture: number },
-  isConnected: boolean
+  isConnected: boolean,
+  greenhousePoints: DataPoint[] = []
 ) {
   const [historical, setHistorical] = useState<DataPoint[]>([]);
   const [rawSnapshots, setRawSnapshots] = useState<Array<{ plant_health_score: number; created_at?: string }>>([]);
@@ -25,16 +26,24 @@ export function useAnalyticsHistory(
   const [loading, setLoading] = useState(true);
   const lastPushRef = useRef<number>(0);
 
+  useEffect(() => {
+    if (greenhousePoints.length > 0) {
+      setHistorical(greenhousePoints);
+      setLoading(false);
+    }
+  }, [greenhousePoints]);
+
   // Fetch historical analytics from Supabase
   useEffect(() => {
     const userId = getUserId();
     if (!userId) {
-      setLoading(false);
+      if (greenhousePoints.length === 0) setLoading(false);
       return;
     }
     fetchAnalytics(userId, 100)
       .then((rows) => {
         setRawSnapshots(rows.map((r) => ({ plant_health_score: r.plant_health_score, created_at: r.created_at })));
+        if (greenhousePoints.length > 0) return;
         const points: DataPoint[] = rows
           .filter((r) => r.snapshot && (r.snapshot.temp != null || r.snapshot.humidity != null))
           .map((r) => ({
@@ -50,8 +59,10 @@ export function useAnalyticsHistory(
         setHistorical(points);
       })
       .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
+      .finally(() => {
+        if (greenhousePoints.length === 0) setLoading(false);
+      });
+  }, [greenhousePoints.length]);
 
   // Accumulate live MQTT points periodically
   useEffect(() => {

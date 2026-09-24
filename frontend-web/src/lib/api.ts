@@ -149,8 +149,7 @@ export async function updateAlert(
       ...(updates.is_read !== undefined ? { is_read: updates.is_read } : {}),
       ...(updates.is_resolved !== undefined ? { is_resolved: updates.is_resolved } : {}),
     })
-    .eq("id", id)
-    .eq("user_id", userId);
+    .eq("id", id);
 
   if (error) throw new Error(error.message);
 }

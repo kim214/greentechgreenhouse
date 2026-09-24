@@ -14,9 +14,11 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { useToast } from "../../hooks/use-toast";
-import { useMqtt } from "../../hooks/useMqtt";
 import { MQTT_TOPICS } from "../../lib/mqtt";
 import { cn } from "../../lib/utils";
+import type { FarmClimate } from "../../hooks/useFarmDashboard";
+import { AutomationFeed } from "./AutomationFeed";
+import type { ActivityRow, AutomationEventRow } from "../../lib/farmApi";
 
 // Advanced gate-style control: Closed | Open with sliding pill
 function GateControl({
@@ -75,8 +77,19 @@ function GateControl({
 }
 
 // ── MAIN CONTROL PANEL ──
-export const ControlPanel = () => {
-  const { data, sendCommand, isConnected } = useMqtt();
+export const ControlPanel = ({
+  data,
+  isConnected,
+  sendCommand,
+  automationEvents = [],
+  activity = [],
+}: {
+  data: FarmClimate;
+  isConnected: boolean;
+  sendCommand: (topic: string, message: string) => void;
+  automationEvents?: AutomationEventRow[];
+  activity?: ActivityRow[];
+}) => {
   const { toast } = useToast();
 
   // Local mode state — you choose. Syncs from MQTT on load, updates instantly on click
@@ -237,8 +250,8 @@ export const ControlPanel = () => {
               <div className="rounded-xl border border-border/60 bg-muted/30 p-4">
                 <p className="mb-3 text-sm text-muted-foreground">
                   Soil moisture: <span className="font-semibold text-foreground">{data.soilMoisture}%</span>
-                  {data.soilMoisture < 30 && (
-                    <span className="ml-2 text-primary">— Pump active (auto)</span>
+                  {pumpOn && (
+                    <span className="ml-2 text-primary">— Automatic irrigation running</span>
                   )}
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -303,8 +316,8 @@ export const ControlPanel = () => {
                   Temp: <span className="font-semibold text-foreground">{data.temp.toFixed(1)}°C</span>
                   {" · "}
                   Humidity: <span className="font-semibold text-foreground">{data.humidity.toFixed(0)}%</span>
-                  {((data.temp > 30) || (data.humidity > 60)) && (
-                    <span className="ml-2 text-primary">— Fan active (auto)</span>
+                  {fanOn && (
+                    <span className="ml-2 text-primary">— Automatic ventilation open</span>
                   )}
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -344,10 +357,12 @@ export const ControlPanel = () => {
             </p>
           </div>
           <p className="text-xs text-muted-foreground sm:text-right">
-            All commands sent via MQTT to your ESP32
+            Commands are sent to the connected controller when live
           </p>
         </CardContent>
       </Card>
+
+      <AutomationFeed events={automationEvents} activity={activity} />
     </div>
   );
 };

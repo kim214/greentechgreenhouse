@@ -1,9 +1,13 @@
 import { useMemo, useEffect, useState, useRef } from "react";
-import { useMqtt } from "../../hooks/useMqtt";
-import { useAnalyticsHistory } from "../../hooks/useAnalyticsHistory";
+import { useAnalyticsHistory, type DataPoint } from "../../hooks/useAnalyticsHistory";
 import { computeAnalytics } from "../../lib/analyticsEngine";
 import { fetchAIInsights, isAIConfigured, type AIInsight } from "../../lib/aiInsights";
 import { getUserId, saveAnalytics } from "../../lib/api";
+import type { FarmClimate } from "../../hooks/useFarmDashboard";
+import type { CropRow, DeviceRow, IrrigationEventRow, VentilationEventRow, AutomationEventRow } from "../../lib/farmApi";
+import { formatRelativeTime } from "../../lib/farmApi";
+import { computeBenefitMetrics } from "../../lib/benefitMetrics";
+import { BenefitsPanel } from "./BenefitsPanel";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
@@ -82,11 +86,60 @@ function formatChartTime(iso: string): string {
   }
 }
 
-export const Analytics = () => {
-  const { data, isConnected } = useMqtt();
+export const Analytics = ({
+  climate,
+  isMqttConnected,
+  readings = [],
+  irrigationEvents = [],
+  ventilationEvents = [],
+  automationEvents = [],
+  crop,
+  devices = [],
+  greenhouseStatus = "online",
+}: {
+  climate: FarmClimate;
+  isMqttConnected: boolean;
+  readings?: Array<{ temperature: number; humidity: number; soil_moisture: number; created_at: string }>;
+  irrigationEvents?: IrrigationEventRow[];
+  ventilationEvents?: VentilationEventRow[];
+  automationEvents?: AutomationEventRow[];
+  crop?: CropRow | null;
+  devices?: DeviceRow[];
+  greenhouseStatus?: string;
+}) => {
+  const data = {
+    temp: climate.temp,
+    humidity: climate.humidity,
+    soilMoisture: climate.soilMoisture,
+  };
+  const isConnected = isMqttConnected || climate.hasClimate;
+  const greenhousePoints = useMemo<DataPoint[]>(
+    () =>
+      readings.map((r) => ({
+        time: r.created_at,
+        temp: r.temperature,
+        humidity: r.humidity,
+        soilMoisture: r.soil_moisture,
+      })),
+    [readings]
+  );
   const { allPoints, rawSnapshots, loading } = useAnalyticsHistory(
     { temp: data.temp, humidity: data.humidity, soilMoisture: data.soilMoisture },
-    isConnected
+    isMqttConnected,
+    greenhousePoints
+  );
+  const benefits = useMemo(
+    () =>
+      computeBenefitMetrics({
+        readings,
+        irrigationEvents,
+        ventilationEvents,
+        automationEvents,
+        devices,
+        crop: crop ?? null,
+        greenhouseStatus,
+      }),
+    [readings, irrigationEvents, ventilationEvents, automationEvents, devices, crop, greenhouseStatus]
   );
   const [aiInsight, setAiInsight] = useState<AIInsight | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
@@ -96,7 +149,7 @@ export const Analytics = () => {
   const AI_INTERVAL_MS = 120_000;
 
   const fetchAI = () => {
-    if (!isAIConfigured() || !isConnected) return;
+    if (!isAIConfigured() || !isMqttConnected) return;
     lastAiRef.current = 0;
     setAiLoading(true);
     fetchAIInsights(result, {
@@ -135,7 +188,7 @@ export const Analytics = () => {
   // Save snapshot to Supabase
   useEffect(() => {
     const userId = getUserId();
-    if (!userId || !isConnected) return;
+    if (!userId || !isMqttConnected) return;
     const now = Date.now();
     if (now - lastSaveRef.current < SAVE_INTERVAL_MS) return;
     lastSaveRef.current = now;
@@ -151,11 +204,11 @@ export const Analytics = () => {
         soil_moisture: data.soilMoisture,
       },
     }).catch(() => {});
-  }, [isConnected, result, data.temp, data.humidity, data.soilMoisture]);
+  }, [isMqttConnected, result, data.temp, data.humidity, data.soilMoisture]);
 
   // Fetch AI insights (optional)
   useEffect(() => {
-    if (!isAIConfigured() || !isConnected) return;
+    if (!isAIConfigured() || !isMqttConnected) return;
     const now = Date.now();
     if (now - lastAiRef.current < AI_INTERVAL_MS) return;
     lastAiRef.current = now;
@@ -168,7 +221,7 @@ export const Analytics = () => {
       .then((insight) => setAiInsight(insight ?? null))
       .catch(() => setAiInsight(null))
       .finally(() => setAiLoading(false));
-  }, [isConnected, result, data.temp, data.humidity, data.soilMoisture]);
+  }, [isMqttConnected, result, data.temp, data.humidity, data.soilMoisture]);
 
   const healthColor =
     result.plantHealthScore >= 70
@@ -225,8 +278,8 @@ export const Analytics = () => {
                 : "border-muted bg-muted/30 text-muted-foreground")
             }
           >
-            {isConnected ? <Wifi className="h-4 w-4" /> : <WifiOff className="h-4 w-4" />}
-            {isConnected ? "Live data" : "Waiting for ESP32"}
+            {isMqttConnected ? <Wifi className="h-4 w-4" /> : <WifiOff className="h-4 w-4" />}
+            {isMqttConnected ? "Live data" : climate.hasClimate ? "House history" : "Waiting for data"}
           </div>
         </div>
       </div>
@@ -297,7 +350,7 @@ export const Analytics = () => {
                 variant="outline"
                 size="sm"
                 onClick={fetchAI}
-                disabled={aiLoading || !isConnected}
+                disabled={aiLoading || !isMqttConnected}
                 className="shrink-0"
               >
                 {aiLoading ? (
@@ -467,9 +520,9 @@ export const Analytics = () => {
           ) : (
             <div className="flex h-[200px] items-center justify-center rounded-lg border border-dashed border-muted-foreground/25">
               <p className="text-sm text-muted-foreground">
-                {isConnected
-                  ? "Collecting data… Charts will appear as more data is received."
-                  : "Connect to MQTT to see live trends."}
+                {climate.hasClimate
+                  ? "Collecting data… Charts will appear as more readings arrive."
+                  : "No climate history for this house yet."}
               </p>
             </div>
           )}
@@ -532,6 +585,36 @@ export const Analytics = () => {
           </CardContent>
         </Card>
       )}
+
+      <BenefitsPanel metrics={benefits} />
+
+      <Card className="shadow-elegant border-0">
+        <CardHeader>
+          <CardTitle>Irrigation history</CardTitle>
+          <CardDescription>Recent cycles for this house</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {irrigationEvents.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No irrigation cycles in the last 7 days.</p>
+          ) : (
+            <ul className="space-y-3">
+              {irrigationEvents.slice(0, 8).map((ev) => (
+                <li key={ev.id} className="flex items-center justify-between gap-4 text-sm">
+                  <div>
+                    <p className="font-medium capitalize text-foreground">
+                      {ev.trigger} irrigation {ev.ended_at ? "completed" : "running"}
+                    </p>
+                    <p className="text-xs text-muted-foreground">{formatRelativeTime(ev.started_at)}</p>
+                  </div>
+                  <span className="font-semibold text-foreground">
+                    {ev.estimated_litres != null ? `${ev.estimated_litres} L` : "—"}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Advanced metrics */}
       <Card className="shadow-elegant border-0">

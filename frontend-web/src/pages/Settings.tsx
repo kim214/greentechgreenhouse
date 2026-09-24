@@ -54,15 +54,15 @@ const Settings = () => {
       {/* Header */}
       <header className="border-b border-border/50 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-wrap items-center gap-3">
             <Button variant="outline" size="sm" asChild>
-              <Link to="/dashboard" className="gap-2 inline-flex">
+              <Link to="/dashboard" className="inline-flex gap-2">
                 <ArrowLeft className="h-4 w-4" />
-                Back to Dashboard
+                Back
               </Link>
             </Button>
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold text-foreground">Settings</h1>
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl font-bold text-foreground md:text-2xl">Settings</h1>
               <p className="text-sm text-muted-foreground">Configure your greenhouse monitoring system</p>
             </div>
             <ThemeToggle />

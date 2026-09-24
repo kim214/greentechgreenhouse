@@ -1,7 +1,8 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { AlertTriangle, CheckCircle, Clock, X, Bell, BellOff } from "lucide-react";
-import { useMqtt } from "../../hooks/useMqtt";
+import type { MqttData } from "../../hooks/useMqtt";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
+import type { GreenhouseAlertRow } from "../../lib/farmApi";
 import { Button } from "../../components/ui/button";
 import { Badge } from "../../components/ui/badge";
 import { Switch } from "../../components/ui/switch";
@@ -35,6 +36,24 @@ interface Alert {
   isResolved: boolean;
   isFromApi?: boolean;
   apiId?: number;
+  recommendedAction?: string;
+}
+
+function recommendedActionFor(category: AlertCategory): string {
+  switch (category) {
+    case "irrigation":
+      return "Check the pump cycle and confirm soil moisture is recovering.";
+    case "climate":
+      return "Confirm ventilation is open and watch temperature for the next hour.";
+    case "sensor":
+      return "Inspect the named probe and restart the sensor hub if it stays silent.";
+    case "system":
+      return "Check controller power and network, then wait for the next heartbeat.";
+    case "maintenance":
+      return "Keep the house offline until the listed work is finished.";
+    default:
+      return "Review the reading and resolve the alert when the condition clears.";
+  }
 }
 
 const AlertCard = ({
@@ -89,6 +108,12 @@ const AlertCard = ({
                 )}
               </div>
               <CardDescription>{alert.description}</CardDescription>
+              {alert.recommendedAction && (
+                <p className="mt-2 text-xs text-foreground">
+                  <span className="font-semibold">Recommended: </span>
+                  {alert.recommendedAction}
+                </p>
+              )}
               <div className="flex items-center space-x-2 mt-2">
                 <Badge variant="outline" className="text-xs">
                   {categoryLabels[alert.category]}
@@ -150,15 +175,45 @@ function recordToAlert(r: AlertRecord): Alert {
     isRead: r.isRead,
     isResolved: r.isResolved,
     isFromApi: true,
+    recommendedAction: recommendedActionFor(r.category),
+  };
+}
+
+function greenhouseToAlert(r: GreenhouseAlertRow): Alert {
+  return {
+    id: `gh-${r.id}`,
+    apiId: r.id,
+    title: r.title,
+    description: r.description,
+    severity: r.severity,
+    category: r.category,
+    timestamp: formatTimestamp(r.created_at),
+    isRead: r.is_read,
+    isResolved: r.is_resolved,
+    isFromApi: true,
+    recommendedAction: recommendedActionFor(r.category),
   };
 }
 
 // Throttle: don't create the same alert type within this many ms
 const MQTT_ALERT_THROTTLE_MS = 5 * 60 * 1000; // 5 minutes
 
-export const AlertCenter = ({ onUnreadChange }: { onUnreadChange?: (count: number) => void }) => {
+export const AlertCenter = ({
+  onUnreadChange,
+  greenhouseAlerts = [],
+  mqttData,
+  isMqttConnected,
+  hasFarmData = false,
+}: {
+  onUnreadChange?: (count: number) => void;
+  greenhouseAlerts?: GreenhouseAlertRow[];
+  mqttData: MqttData;
+  isMqttConnected: boolean;
+  hasFarmData?: boolean;
+}) => {
   const { toast } = useToast();
-  const { data, isConnected } = useMqtt();
+  const data = mqttData;
+  const isConnected = isMqttConnected;
   const userId = getUserId();
   const [apiAlerts, setApiAlerts] = useState<AlertRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -192,8 +247,9 @@ export const AlertCenter = ({ onUnreadChange }: { onUnreadChange?: (count: numbe
   const mqttAlerts = useMemo((): Alert[] => {
     const out: Alert[] = [];
     const now = "Just now";
+    const mqttHasReadings = isConnected && (data.temp > 0 || data.humidity > 0 || data.soilMoisture > 0);
 
-    if (data.soilMoisture < 30) {
+    if (mqttHasReadings && data.soilMoisture < 30) {
       out.push({
         id: "mqtt-soil",
         title: "Low Soil Moisture — Irrigation Needed",
@@ -203,8 +259,9 @@ export const AlertCenter = ({ onUnreadChange }: { onUnreadChange?: (count: numbe
         timestamp: now,
         isRead: false,
         isResolved: false,
+        recommendedAction: recommendedActionFor("irrigation"),
       });
-    } else if (data.soilMoisture < 50) {
+    } else if (mqttHasReadings && data.soilMoisture < 50) {
       out.push({
         id: "mqtt-soil-warn",
         title: "Soil Moisture Low",
@@ -214,10 +271,11 @@ export const AlertCenter = ({ onUnreadChange }: { onUnreadChange?: (count: numbe
         timestamp: now,
         isRead: false,
         isResolved: false,
+        recommendedAction: recommendedActionFor("sensor"),
       });
     }
 
-    if (data.temp > 30) {
+    if (mqttHasReadings && data.temp > 30) {
       out.push({
         id: "mqtt-temp",
         title: "High Temperature",
@@ -227,10 +285,11 @@ export const AlertCenter = ({ onUnreadChange }: { onUnreadChange?: (count: numbe
         timestamp: now,
         isRead: false,
         isResolved: false,
+        recommendedAction: recommendedActionFor("climate"),
       });
     }
 
-    if (data.humidity > 75) {
+    if (mqttHasReadings && data.humidity > 75) {
       out.push({
         id: "mqtt-humidity",
         title: "High Humidity",
@@ -240,24 +299,26 @@ export const AlertCenter = ({ onUnreadChange }: { onUnreadChange?: (count: numbe
         timestamp: now,
         isRead: false,
         isResolved: false,
+        recommendedAction: recommendedActionFor("climate"),
       });
     }
 
-    if (!isConnected) {
+    if (!isConnected && !hasFarmData) {
       out.push({
         id: "mqtt-connection",
-        title: "ESP32 Disconnected",
-        description: "Live sensor data is not available. Check MQTT connection.",
+        title: "Controller disconnected",
+        description: "Live sensor data is not available. Check the connection settings.",
         severity: "medium",
         category: "system",
         timestamp: now,
         isRead: false,
         isResolved: false,
+        recommendedAction: recommendedActionFor("system"),
       });
     }
 
     return out;
-  }, [data.temp, data.humidity, data.soilMoisture, isConnected]);
+  }, [data.temp, data.humidity, data.soilMoisture, isConnected, hasFarmData]);
 
   // Persist MQTT-triggered alerts to API (throttled)
   useEffect(() => {
@@ -287,9 +348,12 @@ export const AlertCenter = ({ onUnreadChange }: { onUnreadChange?: (count: numbe
 
   const visibleMqtt = mqttAlerts.filter((a) => !dismissedMqttIds.has(a.id));
   const alerts: Alert[] = useMemo(() => {
+    const fromGh = greenhouseAlerts.map(greenhouseToAlert);
     const fromApi = apiAlerts.map(recordToAlert);
-    return [...visibleMqtt, ...fromApi];
-  }, [apiAlerts, visibleMqtt]);
+    const seen = new Set(fromGh.map((a) => a.apiId));
+    const uniqueApi = fromApi.filter((a) => a.apiId == null || !seen.has(a.apiId));
+    return [...visibleMqtt, ...fromGh, ...uniqueApi];
+  }, [apiAlerts, greenhouseAlerts, visibleMqtt]);
 
   const unreadCount = alerts.filter((a) => !a.isRead).length;
   const criticalCount = alerts.filter(

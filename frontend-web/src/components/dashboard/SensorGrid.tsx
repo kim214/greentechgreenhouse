@@ -1,7 +1,7 @@
 import { Thermometer, Droplets, Sun, Gauge } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Progress } from "../ui/progress";
-import { useMqtt } from "../../hooks/useMqtt"; //
+import type { FarmClimate } from "../../hooks/useFarmDashboard";
 
 interface SensorCardProps {
   title: string;
@@ -45,7 +45,7 @@ const SensorCard = ({ title, value, unit, status, icon, description, progress }:
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-baseline space-x-1">
-          <span className="text-3xl font-bold text-foreground">{value}</span>
+          <span className="text-3xl font-bold tabular-nums text-foreground transition-all duration-700">{value}</span>
           <span className="text-sm text-muted-foreground">{unit}</span>
         </div>
         
@@ -64,53 +64,52 @@ const SensorCard = ({ title, value, unit, status, icon, description, progress }:
   );
 };
 
-export const SensorGrid = () => {
-  const { data } = useMqtt();
-
+export const SensorGrid = ({ climate }: { climate: FarmClimate }) => {
   const getTempStatus = (t: number) => (t > 30 || t < 18 ? "warning" : "optimal");
   const getMoistureStatus = (m: number) => (m < 30 ? "critical" : m < 50 ? "warning" : "optimal");
-  const hasData = data.temp > 0 || data.humidity > 0 || data.soilMoisture > 0;
+  const hasData = climate.hasClimate;
+  const lightValue = climate.lightPar;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in duration-700">
       <SensorCard
         title="Temperature"
-        value={hasData ? data.temp.toFixed(1) : "—"}
+        value={hasData ? climate.temp.toFixed(1) : "—"}
         unit="°C"
-        status={hasData ? getTempStatus(data.temp) : "optimal"}
+        status={hasData ? getTempStatus(climate.temp) : "optimal"}
         icon={<Thermometer size={18} />}
-        description={hasData ? (data.temp > 30 ? "High temp — fans active" : "Optimal growing climate") : "Waiting for ESP32 data"}
-        progress={hasData ? Math.min((data.temp / 40) * 100, 100) : 0}
+        description={hasData ? (climate.temp > 30 ? "High temp — fans active" : "Optimal growing climate") : "Waiting for sensor data"}
+        progress={hasData ? Math.min((climate.temp / 40) * 100, 100) : 0}
       />
       
       <SensorCard
         title="Humidity"
-        value={hasData ? data.humidity.toFixed(1) : "—"}
+        value={hasData ? climate.humidity.toFixed(1) : "—"}
         unit="%"
-        status={hasData ? (data.humidity > 75 ? "warning" : "optimal") : "optimal"}
+        status={hasData ? (climate.humidity > 75 ? "warning" : "optimal") : "optimal"}
         icon={<Droplets size={18} />}
         description="Air moisture levels"
-        progress={hasData ? data.humidity : 0}
+        progress={hasData ? climate.humidity : 0}
       />
       
       <SensorCard
         title="Soil Moisture"
-        value={hasData ? data.soilMoisture : "—"}
+        value={hasData ? climate.soilMoisture : "—"}
         unit="%"
-        status={hasData ? getMoistureStatus(data.soilMoisture) : "optimal"}
+        status={hasData ? getMoistureStatus(climate.soilMoisture) : "optimal"}
         icon={<Gauge size={18} />}
-        description={hasData ? (data.soilMoisture < 30 ? "Irrigation required" : "Soil is well-hydrated") : "Waiting for ESP32 data"}
-        progress={hasData ? data.soilMoisture : 0}
+        description={hasData ? (climate.soilMoisture < 30 ? "Irrigation required" : "Soil is well-hydrated") : "Waiting for sensor data"}
+        progress={hasData ? climate.soilMoisture : 0}
       />
       
       <SensorCard
         title="Light Intensity"
-        value="850" // Placeholder until ESP32 sends PAR light data
+        value={lightValue > 0 ? lightValue : "—"}
         unit="PAR"
-        status="optimal"
+        status={lightValue > 0 ? "optimal" : "warning"}
         icon={<Sun size={18} />}
-        description="Daily solar exposure"
-        progress={92}
+        description={lightValue > 0 ? "Current solar exposure" : "Night or light sensor offline"}
+        progress={lightValue > 0 ? Math.min((lightValue / 1100) * 100, 100) : 0}
       />
     </div>
   );

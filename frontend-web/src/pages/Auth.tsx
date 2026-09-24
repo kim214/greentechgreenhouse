@@ -5,6 +5,8 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { cn } from "../lib/utils";
 import { supabase } from "../lib/supabaseClient";
+import { fetchCurrentProfile } from "../lib/adminApi";
+import { ensureOwnGreenhouse } from "../lib/farmApi";
 
 const passwordRules = [
   { key: "length", label: "At least 8 characters", test: (p: string) => p.length >= 8 },
@@ -75,7 +77,16 @@ export default function Auth() {
         localStorage.setItem("fullName", fullNameFromMetadata);
         localStorage.setItem("userId", user.id);
 
-        navigate("/dashboard");
+        const profile = await fetchCurrentProfile();
+        if (profile?.full_name) {
+          localStorage.setItem("fullName", profile.full_name);
+        }
+        if (profile?.role === "admin") {
+          navigate("/admin");
+        } else {
+          await ensureOwnGreenhouse();
+          navigate("/dashboard");
+        }
       } else {
         const { error } = await supabase.auth.signUp({
           email: email.trim(),

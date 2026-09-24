@@ -4,11 +4,13 @@ import Auth from "./pages/Auth";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
+import Admin from "./pages/Admin";
 import Settings from "./pages/Settings";
 import FeatureIrrigation from "./pages/FeatureIrrigation";
 import FeatureVentilation from "./pages/FeatureVentilation";
 import FeatureMonitoring from "./pages/FeatureMonitoring";
 import FeatureSentry from "./pages/FeatureSentry";
+import { RequireAuth } from "./components/auth/RequireAuth";
 
 const MainRoutes = () => {
   const routes = [
@@ -22,8 +24,9 @@ const MainRoutes = () => {
         { path: "auth", element: <Auth /> },
         { path: "forgot-password", element: <ForgotPassword /> },
         { path: "reset-password", element: <ResetPassword /> },
-        { path: "dashboard", element: <Dashboard /> },
-        { path: "settings", element: <Settings /> },
+        { path: "dashboard", element: <RequireAuth><Dashboard /></RequireAuth> },
+        { path: "admin", element: <RequireAuth adminOnly><Admin /></RequireAuth> },
+        { path: "settings", element: <RequireAuth><Settings /></RequireAuth> },
         { path: "feature/irrigation", element: <FeatureIrrigation /> },
         { path: "feature/ventilation", element: <FeatureVentilation /> },
         { path: "feature/monitoring", element: <FeatureMonitoring /> },

@@ -1,22 +1,19 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  Leaf,
+  Shield,
   LayoutDashboard,
   Droplets,
   Wind,
   Settings,
-  LogOut,
   Camera,
   Bell,
   Activity,
   Wifi,
   WifiOff,
-  ChevronDown,
   User,
   Zap,
   Thermometer,
-  Gauge,
   ArrowRight,
   BarChart3,
 } from "lucide-react";
@@ -26,24 +23,36 @@ import { ControlPanel } from "../components/dashboard/ControlPanel";
 import { CameraMonitoring } from "../components/dashboard/CameraMonitoring";
 import { AlertCenter } from "../components/dashboard/AlertCenter";
 import { Analytics } from "../components/dashboard/Analytics";
+import { CropStatus } from "../components/dashboard/CropStatus";
+import { DeviceStatus } from "../components/dashboard/DeviceStatus";
+import { AutomationFeed } from "../components/dashboard/AutomationFeed";
 import { useMqtt } from "../hooks/useMqtt";
+import { useFarmDashboard } from "../hooks/useFarmDashboard";
+import { formatRelativeTime } from "../lib/farmApi";
 import { Button } from "../components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../components/ui/dropdown-menu";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import { DropdownMenuItem } from "../components/ui/dropdown-menu";
 import { Badge } from "../components/ui/badge";
-import { ThemeToggle } from "../components/theme/ThemeToggle";
+import { LivePulse } from "../components/dashboard/LivePulse";
+import { useCurrentProfile } from "../hooks/useCurrentProfile";
+import { AppShell } from "../components/layout/AppShell";
+import { PageEmpty, PageError, PageLoading } from "../components/layout/PageState";
+import { RegisterGreenhouseDialog } from "../components/dashboard/RegisterGreenhouseDialog";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
-  const { data: mqttData, isConnected } = useMqtt();
+  const mqtt = useMqtt();
+  const { data: mqttData, isConnected, sendCommand } = mqtt;
+  const { houses, selectedId, setSelectedId, addHouse, snapshot, climate, loading, error, reload } =
+    useFarmDashboard(mqtt);
   const [activeTab, setActiveTab] = useState("overview");
   const [dateTime, setDateTime] = useState(new Date());
+  const { isAdmin } = useCurrentProfile();
   const userName = localStorage.getItem("fullName") || "User";
 
   useEffect(() => {
@@ -66,198 +75,156 @@ export default function Dashboard() {
 
   const [unreadAlertsCount, setUnreadAlertsCount] = useState(0);
 
-  return (
-    <div className="flex min-h-screen bg-background text-foreground dark-glow-bg">
-      {/* Sidebar */}
-      <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-border/40 bg-card/80 backdrop-blur-xl">
-        {/* Logo */}
-        <Link
-          to="/"
-          className="flex items-center gap-2.5 px-6 py-6 transition-opacity hover:opacity-90"
-        >
-          <img
-            src="/greentech-logo.png"
-            alt="GreenTech"
-            className="h-7 w-7 object-contain"
-          />
-          <span className="font-display text-lg font-bold tracking-tight text-foreground">
-            GreenTech
+  useEffect(() => {
+    if (activeTab === "alerts") return;
+    const farmUnread = (snapshot?.alerts ?? []).filter((a) => !a.is_read && !a.is_resolved).length;
+    setUnreadAlertsCount(farmUnread);
+  }, [snapshot?.alerts, activeTab]);
+
+  const extraNav = (
+    <>
+      {isAdmin && (
+        <Link to="/admin" className="block">
+          <span className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-all hover:bg-secondary/50 hover:text-foreground">
+            <Shield size={18} aria-hidden />
+            Admin
           </span>
         </Link>
+      )}
+      <Link to="/settings" className="block">
+        <span className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-all hover:bg-secondary/50 hover:text-foreground">
+          <Settings size={18} aria-hidden />
+          Settings
+        </span>
+      </Link>
+    </>
+  );
 
-        {/* Navigation */}
-        <nav className="flex-1 space-y-1 px-3">
-          {menuItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={cn(
-                "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all",
-                activeTab === item.id
-                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                  : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
-              )}
-            >
-              <item.icon size={18} />
-              {item.label}
-            </button>
-          ))}
-
-          <Link to="/settings" className="block">
-            <button
-              className={cn(
-                "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
-              )}
-            >
-              <Settings size={18} />
-              Settings
-            </button>
-          </Link>
-        </nav>
-
-        {/* Footer */}
-        <div className="border-t border-border/40 px-3 py-4">
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-            onClick={() => {
-              localStorage.removeItem("userLoggedIn");
-              localStorage.removeItem("fullName");
-              localStorage.removeItem("userId");
-              navigate("/");
-            }}
-          >
-            <LogOut size={18} />
-            Sign Out
-          </Button>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="ml-64 flex-1 min-h-screen flex flex-col">
-        {/* Header */}
-        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border/40 bg-background/95 px-8 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-          <div>
-            <h1 className="font-display text-2xl font-bold tracking-tight text-foreground">
-              {menuItems.find((i) => i.id === activeTab)?.label}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              GreenTech OS · Zone A
-            </p>
-          </div>
-
-          <div className="flex items-center gap-4">
-            {/* Date & Time */}
-            <div className="hidden text-right sm:block">
-              <div className="text-sm font-medium text-foreground">
-                {dateTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {dateTime.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" })}
-              </div>
+  return (
+    <AppShell
+      title={menuItems.find((i) => i.id === activeTab)?.label ?? "Overview"}
+      subtitle={
+        snapshot
+          ? `${snapshot.greenhouse.code} · ${snapshot.greenhouse.location ?? snapshot.greenhouse.name}`
+          : "GreenTech OS"
+      }
+      navItems={menuItems}
+      activeId={activeTab}
+      onNav={setActiveTab}
+      extraNav={extraNav}
+      userName={userName}
+      userCaption="GreenTech Account"
+      headerExtra={
+        <>
+          <div className="hidden text-right sm:block">
+            <div className="text-sm font-medium text-foreground">
+              {dateTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
             </div>
-
-            {/* Theme: Light / Dark (Grow) */}
-            <ThemeToggle />
-
-            {/* Alerts */}
-            <Button
-              variant="outline"
-              size="icon"
-              className="relative rounded-xl"
-              onClick={() => setActiveTab("alerts")}
-            >
-              <Bell className="h-4 w-4" />
-              {unreadAlertsCount > 0 && (
-                <Badge
-                  variant="destructive"
-                  className="absolute -right-1 -top-1 h-5 w-5 rounded-full p-0 text-[10px] font-bold"
-                >
-                  {unreadAlertsCount}
-                </Badge>
-              )}
-            </Button>
-
-            {/* User Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="flex items-center gap-2 rounded-xl px-3 py-2"
-                >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 font-semibold text-primary">
-                    {userName.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="hidden max-w-[120px] truncate text-sm font-medium sm:inline">
-                    {userName}
-                  </span>
-                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 rounded-xl">
-                <DropdownMenuLabel>
-                  <div>
-                    <p className="font-medium">{userName}</p>
-                    <p className="text-xs font-normal text-muted-foreground">GreenTech Account</p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link to="/settings" className="gap-2 cursor-pointer">
-                    <User className="h-4 w-4" />
-                    Profile & Settings
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/settings" className="gap-2 cursor-pointer">
-                    <Settings className="h-4 w-4" />
-                    Settings
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="gap-2 text-destructive focus:text-destructive cursor-pointer"
-                  onClick={() => {
-                    localStorage.removeItem("userLoggedIn");
-                    localStorage.removeItem("fullName");
-                    localStorage.removeItem("userId");
-                    navigate("/");
-                  }}
-                >
-                  <LogOut className="h-4 w-4" />
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="text-xs text-muted-foreground">
+              {dateTime.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" })}
+            </div>
           </div>
-        </header>
-
-        {/* Content Area */}
-        <div className="flex-1 p-8">
+          {houses.length > 0 && selectedId && (
+            <Select value={selectedId} onValueChange={setSelectedId}>
+              <SelectTrigger className="w-[160px] rounded-xl sm:w-[220px]" aria-label="Select greenhouse">
+                <SelectValue placeholder="Select house" />
+              </SelectTrigger>
+              <SelectContent>
+                {houses.map((house) => (
+                  <SelectItem key={house.id} value={house.id}>
+                    {house.code} · {house.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+          {!isAdmin && <RegisterGreenhouseDialog onSubmit={addHouse} disabled={loading} />}
+          <Button
+            variant="outline"
+            size="icon"
+            className="relative rounded-xl"
+            aria-label={unreadAlertsCount > 0 ? `${unreadAlertsCount} unread alerts` : "Alerts"}
+            onClick={() => setActiveTab("alerts")}
+          >
+            <Bell className="h-4 w-4" />
+            {unreadAlertsCount > 0 && (
+              <Badge
+                variant="destructive"
+                className="absolute -right-1 -top-1 h-5 w-5 rounded-full p-0 text-[10px] font-bold"
+              >
+                {unreadAlertsCount}
+              </Badge>
+            )}
+          </Button>
+        </>
+      }
+      userMenu={
+        <>
+          {isAdmin && (
+            <DropdownMenuItem asChild>
+              <Link to="/admin" className="gap-2 cursor-pointer">
+                <Shield className="h-4 w-4" />
+                Admin portal
+              </Link>
+            </DropdownMenuItem>
+          )}
+          <DropdownMenuItem asChild>
+            <Link to="/settings" className="gap-2 cursor-pointer">
+              <User className="h-4 w-4" />
+              Profile & Settings
+            </Link>
+          </DropdownMenuItem>
+        </>
+      }
+    >
           <div className="space-y-6">
-            {activeTab === "overview" && (
+            {loading && !snapshot && <PageLoading label="Loading greenhouse…" />}
+            {error && !snapshot && !loading && (
+              <PageError description={error} onRetry={reload} />
+            )}
+            {!loading && !error && !snapshot && !climate.hasClimate && (
+              <PageEmpty
+                title="No house data yet"
+                description="Add a greenhouse to start monitoring. Live controller readings appear on the open house when the ESP32 is connected."
+              />
+            )}
+            {activeTab === "overview" && (snapshot || climate.hasClimate) && (
               <>
                 {/* Connection Status */}
                 <div
                   className={cn(
-                    "flex items-center justify-between rounded-2xl border px-4 py-3",
-                    isConnected
+                    "flex flex-col gap-3 rounded-2xl border px-4 py-3 sm:flex-row sm:items-center sm:justify-between",
+                    isConnected || snapshot?.greenhouse.status === "online"
                       ? "border-primary/20 bg-primary/5"
                       : "border-muted bg-muted/30"
                   )}
                 >
-                  <div className="flex items-center gap-2">
-                    {isConnected ? (
+                  <div className="flex flex-wrap items-center gap-2">
+                    {isConnected || snapshot?.greenhouse.status === "online" ? (
                       <Wifi className="h-5 w-5 text-primary" />
                     ) : (
                       <WifiOff className="h-5 w-5 animate-pulse text-muted-foreground" />
                     )}
                     <span className={cn(
                       "text-sm font-medium",
-                      isConnected ? "text-primary" : "text-muted-foreground"
+                      isConnected || snapshot?.greenhouse.status === "online"
+                        ? "text-primary"
+                        : "text-muted-foreground"
                     )}>
-                      {isConnected ? "Live — ESP32 connected" : "Connecting to ESP32…"}
+                      {isConnected
+                        ? "Live — ESP32 connected"
+                        : snapshot
+                          ? `${snapshot.greenhouse.name} · ${snapshot.greenhouse.status}${
+                              snapshot.latestReading
+                                ? ` · updated ${formatRelativeTime(snapshot.latestReading.created_at)}`
+                                : ""
+                            }`
+                          : "Connecting to ESP32…"}
                     </span>
+                    <LivePulse
+                      label="Streaming"
+                      active={isConnected || snapshot?.greenhouse.status === "online"}
+                    />
                   </div>
                   <Button variant="ghost" size="sm" asChild>
                     <Link to="/settings" className="gap-2 text-xs">
@@ -268,43 +235,80 @@ export default function Dashboard() {
                 </div>
 
                 {/* Hero Stats */}
-                <div className="overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-card via-card to-primary/5 p-8 shadow-lg">
+                <div className="overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-card via-card to-primary/5 p-5 shadow-lg md:p-8">
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     <StatItem
                       label="Temperature"
-                      value={`${mqttData.temp.toFixed(1)}°C`}
-                      status={mqttData.temp > 30 || mqttData.temp < 18 ? "Warning" : "Optimal"}
+                      value={climate.hasClimate ? `${climate.temp.toFixed(1)}°C` : "—"}
+                      status={!climate.hasClimate ? "—" : climate.temp > 30 || climate.temp < 18 ? "Warning" : "Optimal"}
                       icon={<Thermometer size={16} />}
-                      isWarning={mqttData.temp > 30 || mqttData.temp < 18}
+                      isWarning={climate.hasClimate && (climate.temp > 30 || climate.temp < 18)}
                     />
                     <StatItem
                       label="Humidity"
-                      value={`${mqttData.humidity.toFixed(0)}%`}
-                      status={mqttData.humidity > 75 ? "High" : "Normal"}
+                      value={climate.hasClimate ? `${climate.humidity.toFixed(0)}%` : "—"}
+                      status={!climate.hasClimate ? "—" : climate.humidity > 75 ? "High" : "Normal"}
                       icon={<Wind size={16} />}
-                      isWarning={mqttData.humidity > 75}
+                      isWarning={climate.hasClimate && climate.humidity > 75}
                     />
                     <StatItem
                       label="Soil Moisture"
-                      value={`${mqttData.soilMoisture}%`}
+                      value={climate.hasClimate ? `${climate.soilMoisture}%` : "—"}
                       status={
-                        mqttData.soilMoisture < 30
-                          ? "Critical"
-                          : mqttData.soilMoisture < 50
-                            ? "Low"
-                            : "Optimal"
+                        !climate.hasClimate
+                          ? "—"
+                          : climate.soilMoisture < 30
+                            ? "Critical"
+                            : climate.soilMoisture < 50
+                              ? "Low"
+                              : "Optimal"
                       }
                       icon={<Droplets size={16} />}
-                      isWarning={mqttData.soilMoisture < 50}
+                      isWarning={climate.hasClimate && climate.soilMoisture < 50}
                     />
                     <StatItem
                       label="Mode"
-                      value={mqttData.mode}
-                      status={mqttData.fanState || mqttData.pumpState ? "Active" : "Idle"}
+                      value={climate.mode}
+                      status={
+                        climate.pumpState && climate.fanState
+                          ? "Irrigation + ventilation"
+                          : climate.pumpState
+                            ? "Irrigation running"
+                            : climate.fanState
+                              ? "Ventilation open"
+                              : "Idle"
+                      }
                       icon={<Activity size={16} />}
                     />
                   </div>
                 </div>
+
+                {(climate.pumpState || climate.fanState) && (
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {climate.pumpState && (
+                      <div className="flex items-center gap-3 rounded-2xl border border-primary/25 bg-primary/5 px-4 py-3">
+                        <Droplets className="h-5 w-5 text-primary" />
+                        <div>
+                          <p className="text-sm font-semibold text-foreground">Automatic irrigation running</p>
+                          <p className="text-xs text-muted-foreground">
+                            Pump is open · soil {climate.hasClimate ? `${climate.soilMoisture}%` : "—"}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    {climate.fanState && (
+                      <div className="flex items-center gap-3 rounded-2xl border border-primary/25 bg-primary/5 px-4 py-3">
+                        <Wind className="h-5 w-5 text-primary" />
+                        <div>
+                          <p className="text-sm font-semibold text-foreground">Automatic ventilation open</p>
+                          <p className="text-xs text-muted-foreground">
+                            Fans are running · {climate.hasClimate ? `${climate.temp.toFixed(1)}°C` : "—"}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Quick Actions */}
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -325,23 +329,76 @@ export default function Dashboard() {
                   ))}
                 </div>
 
+                {snapshot && (
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    <CropStatus crop={snapshot.crop} />
+                    <DeviceStatus
+                      devices={snapshot.devices}
+                      sensors={snapshot.sensors}
+                      houseStatus={snapshot.greenhouse.status}
+                      irrigating={climate.pumpState}
+                      ventilating={climate.fanState}
+                    />
+                  </div>
+                )}
+
                 {/* Sensor Grid */}
                 <div>
                   <h2 className="mb-4 font-display text-xl font-semibold text-foreground">
                     Live Sensors
                   </h2>
-                  <SensorGrid />
+                  <SensorGrid climate={climate} />
                 </div>
+
+                {snapshot && (
+                  <AutomationFeed
+                    events={snapshot.automationEvents}
+                    activity={snapshot.activity}
+                  />
+                )}
               </>
             )}
-            {activeTab === "controls" && <ControlPanel />}
-            {activeTab === "cameras" && <CameraMonitoring />}
-            {activeTab === "analytics" && <Analytics />}
-            {activeTab === "alerts" && <AlertCenter onUnreadChange={setUnreadAlertsCount} />}
+            {activeTab === "controls" && (
+              <ControlPanel
+                data={climate}
+                isConnected={isConnected}
+                sendCommand={sendCommand}
+                automationEvents={snapshot?.automationEvents}
+                activity={snapshot?.activity}
+              />
+            )}
+            {activeTab === "cameras" && (
+              <CameraMonitoring
+                greenhouse={snapshot?.greenhouse}
+                cropName={snapshot?.crop?.name}
+                irrigating={climate.pumpState}
+                ventilating={climate.fanState}
+              />
+            )}
+            {activeTab === "analytics" && (
+              <Analytics
+                climate={climate}
+                isMqttConnected={isConnected}
+                readings={snapshot?.readings}
+                irrigationEvents={snapshot?.irrigationEvents}
+                ventilationEvents={snapshot?.ventilationEvents}
+                automationEvents={snapshot?.automationEvents}
+                crop={snapshot?.crop}
+                devices={snapshot?.devices}
+                greenhouseStatus={snapshot?.greenhouse.status}
+              />
+            )}
+            {activeTab === "alerts" && (
+              <AlertCenter
+                onUnreadChange={setUnreadAlertsCount}
+                greenhouseAlerts={snapshot?.alerts}
+                mqttData={mqttData}
+                isMqttConnected={isConnected}
+                hasFarmData={!!snapshot}
+              />
+            )}
           </div>
-        </div>
-      </main>
-    </div>
+    </AppShell>
   );
 }
 
@@ -364,7 +421,7 @@ function StatItem({
         {icon}
         {label}
       </div>
-      <div className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+      <div className="text-2xl font-bold tracking-tight tabular-nums text-foreground transition-all duration-700 sm:text-3xl">
         {value}
       </div>
       <div
