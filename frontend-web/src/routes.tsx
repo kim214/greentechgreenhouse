@@ -10,6 +10,7 @@ import FeatureIrrigation from "./pages/FeatureIrrigation";
 import FeatureVentilation from "./pages/FeatureVentilation";
 import FeatureMonitoring from "./pages/FeatureMonitoring";
 import FeatureSentry from "./pages/FeatureSentry";
+import Pricing from "./pages/Pricing";
 import { RequireAuth } from "./components/auth/RequireAuth";
 
 const MainRoutes = () => {
@@ -31,6 +32,7 @@ const MainRoutes = () => {
         { path: "feature/ventilation", element: <FeatureVentilation /> },
         { path: "feature/monitoring", element: <FeatureMonitoring /> },
         { path: "feature/sentry", element: <FeatureSentry /> },
+        { path: "pricing", element: <Pricing /> },
         
         /*
         {

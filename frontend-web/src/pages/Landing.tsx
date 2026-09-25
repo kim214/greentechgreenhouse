@@ -1,11 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Droplets, Wind, Activity, Shield } from "lucide-react";
 import { Button } from "../components/ui/button";
-import heroImg from "@/assets/hero-greenhouse.jpg";
-import irrigationImg from "@/assets/irrigation-system.jpg";
-import ventilationImg from "@/assets/ventilation-system.jpg";
-import monitoringImg from "@/assets/monitoring-sensors.jpg";
-import overviewImg from "@/assets/greenhouse-overview.jpg";
+import { MarketingFooter, MarketingNav } from "../components/layout/MarketingNav";
+import {
+  Founders,
+  HowItWorks,
+  ProductGlimpse,
+  ProofStrip,
+  TrustAndFaq,
+  WhoItsFor,
+} from "../components/landing/LandingSections";
+import heroImg from "@/assets/home-hero.webp";
+import irrigationImg from "@/assets/home-irrigation.jpg";
+import ventilationImg from "@/assets/home-ventilation.jpg";
+import monitoringImg from "@/assets/home-monitoring.jpg";
+import overviewImg from "@/assets/home-sentry.jpg";
+import canopyImg from "@/assets/home-canopy.jpg";
+import plantingImg from "@/assets/home-planting.jpg";
+import inspectionImg from "@/assets/home-inspection.jpg";
+import harvestImg from "@/assets/home-harvest.jpg";
+import { kenyaTomatoHouse } from "../lib/homeImages";
+
+const fieldPhotos = [
+  { src: canopyImg, alt: "Uniform canopy of flowering crops inside a tunnel house", caption: "Healthy canopy" },
+  { src: plantingImg, alt: "Drip lines laid across a newly planted greenhouse bed", caption: "New planting cycle" },
+  { src: inspectionImg, alt: "Grower inspecting tomato seedlings in the greenhouse", caption: "Crop inspection" },
+  { src: harvestImg, alt: "Harvested tomatoes packed in crates between crop rows", caption: "Harvest ready" },
+  { src: kenyaTomatoHouse, alt: "Tomato production house typical of Kenyan smart greenhouse farms", caption: "Production house" },
+];
 
 const features = [
   {
@@ -59,47 +81,13 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen w-full bg-background text-foreground antialiased">
-      {/* Navbar */}
-      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-white/20 bg-white/70 px-6 py-3 shadow-lg shadow-black/5 backdrop-blur-xl">
-          <a href="/" className="flex items-center gap-3">
-            <img
-              src="/greentech-logo.png"
-              alt="GreenTech"
-              className="h-9 w-9 rounded-xl object-contain"
-            />
-            <span className="font-display text-lg font-semibold tracking-tight text-foreground">
-              GreenTech
-            </span>
-          </a>
-
-          <div className="hidden items-center gap-1 md:flex">
-            {features.map((f) => (
-              <a
-                key={f.id}
-                href={`#${f.id}`}
-                className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
-              >
-                {f.label}
-              </a>
-            ))}
-          </div>
-
-          <Button
-            onClick={() => navigate("/login")}
-            size="sm"
-            className="rounded-full bg-primary px-6 font-medium hover:bg-primary/90"
-          >
-            Get Started
-          </Button>
-        </nav>
-      </header>
+      <MarketingNav home />
 
       {/* Hero */}
       <section className="relative flex min-h-screen w-full items-end overflow-hidden">
         <img
           src={heroImg}
-          alt="Smart greenhouse facility aerial view"
+          alt="Tomato rows growing in a production greenhouse"
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -122,23 +110,26 @@ export default function Landing() {
           <div className="mt-10 flex flex-wrap gap-4">
             <Button
               size="lg"
-              onClick={() => navigate("/auth")}
+              onClick={() => navigate("/pricing")}
               className="gap-2 rounded-full bg-primary px-8 py-6 text-base font-medium hover:bg-primary/90"
             >
-              Start Free Trial
+              See plans
               <ArrowRight className="h-4 w-4" />
             </Button>
             <Button
               size="lg"
               variant="outline"
-              onClick={() => document.getElementById("smart-irrigation")?.scrollIntoView({ behavior: "smooth" })}
+              asChild
               className="rounded-full border-white/30 bg-white/10 px-8 py-6 text-base font-medium text-white backdrop-blur hover:bg-white/20 hover:text-white"
             >
-              Explore Features
+              <a href="#contact">Talk to us</a>
             </Button>
           </div>
         </div>
       </section>
+
+      <HowItWorks />
+      <WhoItsFor />
 
       {/* Features */}
       {features.map((feature) => {
@@ -198,76 +189,57 @@ export default function Landing() {
         );
       })}
 
-      {/* Testimonial */}
-      <section className="border-t border-border/40 bg-muted/20 py-20 md:py-28">
-        <div className="mx-auto max-w-4xl px-6 md:px-12">
-          <blockquote className="text-center">
-            <p className="font-display text-2xl font-semibold leading-snug text-foreground md:text-3xl lg:text-4xl">
-              "GreenTech's real-time monitoring and automated irrigation transformed our
-              yield. We reduced water usage by 40% while increasing crop output —
-              all from a single dashboard."
-            </p>
-            <footer className="mt-8">
-              <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm font-medium text-muted-foreground">
-                <span>AgriVerde Farms</span>
-                <span>NovaCrop Solutions</span>
-                <span>EcoHarvest Global</span>
-              </div>
-            </footer>
-          </blockquote>
+      <section className="border-t border-border/40 bg-background">
+        <div className="mx-auto max-w-6xl px-6 py-20 md:px-12 lg:py-24">
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary">On the ground</p>
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+            Real houses. Real harvests.
+          </h2>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            From first drip line to packed crates — the same GreenTech houses our growers run every day.
+          </p>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {fieldPhotos.map((photo) => (
+              <figure key={photo.caption} className="group overflow-hidden rounded-2xl">
+                <div className="relative min-h-[220px] overflow-hidden">
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <figcaption className="mt-3 text-sm font-medium text-muted-foreground">{photo.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section id="cta" className="border-t border-border/40 bg-gradient-to-b from-muted/20 to-background py-24 md:py-32">
+      <ProofStrip />
+      <ProductGlimpse />
+      <Founders />
+      <TrustAndFaq />
+
+      <section id="cta" className="border-t border-border/40 bg-gradient-to-b from-muted/20 to-background py-20 md:py-24">
         <div className="mx-auto max-w-3xl px-6 text-center md:px-12">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl overflow-hidden">
-            <img src="/greentech-logo.png" alt="GreenTech" className="h-full w-full object-contain" />
-          </div>
-          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             Ready to grow smarter?
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
-            Join GreenTech today and take full control of your greenhouse with
-            intelligent automation, live monitoring, and powerful analytics.
+          <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
+            See house prices and monthly plans, or write to Nathan and Dylan.
           </p>
-          <Button
-            size="lg"
-            onClick={() => navigate("/auth")}
-            className="mt-10 gap-2 rounded-full bg-primary px-10 py-6 text-base font-medium hover:bg-primary/90"
-          >
-            Get Started — It's Free
-          </Button>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button size="lg" className="rounded-full px-8" onClick={() => navigate("/pricing")}>
+              See plans
+            </Button>
+            <Button size="lg" variant="outline" className="rounded-full px-8" asChild>
+              <a href="#contact">Talk to us</a>
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border/40 py-12">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row md:px-12">
-          <a href="/" className="flex items-center gap-2">
-            <img
-              src="/greentech-logo.png"
-              alt="GreenTech"
-              className="h-5 w-5 object-contain"
-            />
-            <span className="font-display font-semibold text-foreground">GreenTech</span>
-          </a>
-          <nav className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
-            {features.map((f) => (
-              <a
-                key={f.id}
-                href={`#${f.id}`}
-                className="transition-colors hover:text-foreground"
-              >
-                {f.label}
-              </a>
-            ))}
-          </nav>
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} GreenTech Systems
-          </p>
-        </div>
-      </footer>
+      <MarketingFooter />
     </div>
   );
 }

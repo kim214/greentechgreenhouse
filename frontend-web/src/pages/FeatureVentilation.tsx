@@ -3,7 +3,7 @@ import { Wind, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FeatureLayout } from "@/components/feature/FeatureLayout";
 import { MediaSection } from "@/components/feature/MediaSection";
-import ventilationImg from "@/assets/ventilation-system.jpg";
+import { homeImages, kenyaTomatoHouse } from "@/lib/homeImages";
 
 const benefits = [
   "Intelligent fan and vent control",
@@ -20,7 +20,7 @@ export default function FeatureVentilation() {
     <FeatureLayout
       heroTitle="Ventilation Control"
       heroSubtitle="Automated climate management with intelligent fan and vent control. Maintain ideal airflow, CO₂ levels, and temperature gradients across your greenhouse."
-      heroImage={ventilationImg}
+      heroImage={homeImages.ventilation}
       icon={Wind}
       featureLabel="Ventilation"
     >
@@ -44,6 +44,11 @@ export default function FeatureVentilation() {
                 manual intervention. Your greenhouse stays optimized around
                 the clock.
               </p>
+              <img
+                src={homeImages.hero}
+                alt="Open, well-aired tomato rows in a production greenhouse"
+                className="mt-8 h-56 w-full rounded-2xl object-cover"
+              />
             </div>
             <div>
               <h3 className="font-display text-lg font-semibold text-foreground">
@@ -69,27 +74,9 @@ export default function FeatureVentilation() {
         variant="images"
       >
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="overflow-hidden rounded-2xl border bg-muted/30">
-            <img
-              src="https://images.pexels.com/photos/3735352/pexels-photo-3735352.jpeg"
-              alt="Greenhouse roof vents providing natural airflow"
-              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
-            />
-          </div>
-          <div className="overflow-hidden rounded-2xl border bg-muted/30">
-            <img
-              src="https://images.pexels.com/photos/4046718/pexels-photo-4046718.jpeg"
-              alt="Industrial fans circulating air through a greenhouse corridor"
-              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
-            />
-          </div>
-          <div className="overflow-hidden rounded-2xl border bg-muted/30">
-            <img
-              src="https://images.pexels.com/photos/7932259/pexels-photo-7932259.jpeg"
-              alt="Automated ventilation integrated with climate sensors"
-              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105"
-            />
-          </div>
+          <Gallery src={homeImages.ventilation} alt="Glass greenhouse managing climate on an open Kenyan farm" />
+          <Gallery src={homeImages.canopy} alt="Even crop canopy under controlled airflow" />
+          <Gallery src={kenyaTomatoHouse} alt="Production tomato house with open aisles and bright climate" />
         </div>
       </MediaSection>
 
@@ -107,13 +94,21 @@ export default function FeatureVentilation() {
           </p>
           <Button
             size="lg"
-            onClick={() => navigate("/auth")}
+            onClick={() => navigate("/pricing")}
             className="mt-10 gap-2 rounded-full bg-primary px-10 py-6 text-base font-medium hover:bg-primary/90"
           >
-            Get Started — It's Free
+            See plans
           </Button>
         </div>
       </section>
     </FeatureLayout>
+  );
+}
+
+function Gallery({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border bg-muted/30">
+      <img src={src} alt={alt} className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105" />
+    </div>
   );
 }

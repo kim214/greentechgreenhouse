@@ -6,7 +6,6 @@ import {
   Droplets,
   Wind,
   Settings,
-  Camera,
   Bell,
   Activity,
   Wifi,
@@ -20,7 +19,6 @@ import {
 import { cn } from "../lib/utils";
 import { SensorGrid } from "../components/dashboard/SensorGrid";
 import { ControlPanel } from "../components/dashboard/ControlPanel";
-import { CameraMonitoring } from "../components/dashboard/CameraMonitoring";
 import { AlertCenter } from "../components/dashboard/AlertCenter";
 import { Analytics } from "../components/dashboard/Analytics";
 import { CropStatus } from "../components/dashboard/CropStatus";
@@ -63,7 +61,6 @@ export default function Dashboard() {
   const menuItems = [
     { id: "overview", label: "Overview", icon: LayoutDashboard },
     { id: "controls", label: "Controls", icon: Droplets },
-    { id: "cameras", label: "Live Sentry", icon: Camera },
     { id: "analytics", label: "Analytics", icon: BarChart3 },
     { id: "alerts", label: "Alert Center", icon: Bell },
   ];
@@ -365,14 +362,6 @@ export default function Dashboard() {
                 sendCommand={sendCommand}
                 automationEvents={snapshot?.automationEvents}
                 activity={snapshot?.activity}
-              />
-            )}
-            {activeTab === "cameras" && (
-              <CameraMonitoring
-                greenhouse={snapshot?.greenhouse}
-                cropName={snapshot?.crop?.name}
-                irrigating={climate.pumpState}
-                ventilating={climate.fanState}
               />
             )}
             {activeTab === "analytics" && (

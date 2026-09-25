@@ -44,12 +44,15 @@ export function FeatureLayout({
             <span className="hidden rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary md:inline-flex">
               {featureLabel}
             </span>
+            <Button variant="ghost" size="sm" className="rounded-full" onClick={() => navigate("/pricing")}>
+              Pricing
+            </Button>
             <Button
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/pricing")}
               size="sm"
               className="rounded-full bg-primary px-6 font-medium hover:bg-primary/90"
             >
-              Get Started
+              See plans
             </Button>
           </div>
         </nav>
@@ -123,6 +126,9 @@ export function FeatureLayout({
               className="transition-colors hover:text-foreground"
             >
               Sentry Hub
+            </a>
+            <a href="/pricing" className="transition-colors hover:text-foreground">
+              Pricing
             </a>
           </nav>
           <p className="text-sm text-muted-foreground">
